@@ -4,14 +4,11 @@ const Schema = mongoose.Schema
 
 const userSchema = new Schema({
     email: String,
-    pwd: String,
+    password: String,
     name: String,
     nationality: String,
     birthday: Date,
-    profilePicture: {
-        type: Schema.Types.ObjectId,
-        ref: 'Picture',
-    },
+    userImage: String,
     favoriteCuisines: [{
         type: String,
     }],
@@ -23,6 +20,8 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Restaurant',
       }],
+}, {
+    timestamps: true
 })
 
 const User = mongoose.model('User', userSchema)

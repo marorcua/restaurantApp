@@ -3,7 +3,6 @@ const router = express.Router()
 const bcrypt = require("bcrypt")
 const bcryptSalt = 10
 const { localUpload } = require('./../config/file-upload.config')
-const Picture = require('./../models/image.model')
 
 const mongoose = require('mongoose')
 
@@ -44,5 +43,41 @@ router.post('/', (req, res) => {
 
 // Sign up (GET)
 router.get('/sign-up', (req, res) => res.render('pages/auth/signup'))
+
+// Sign up (POST)
+router.post('/sign-up', localUpload.single('userImage'), (req, res, next) => {
+
+    const { email, password, name, nationality, birthday, favoriteCuisine1, favoriteCuisine2, favoriteCuisine3, userImage } = req.body
+    const favoriteCuisines = [favoriteCuisine1, favoriteCuisine2, favoriteCuisine3]
+
+    User
+        .findOne({ email })
+        .then(user => {
+
+            if (user) {
+                res.render('pages/auth/signup', { errorMessage: 'User already registered' })
+                return
+            }
+
+            if (email.length === 0 || password.length === 0 || name.length === 0 || nationality.length === 0 || birthday.length === 0) {
+            res.render('pages/auth/signup', { errorMessage: 'Please fill all the fields' })
+            return
+            }
+
+            if (password.length < 8) {
+            res.render('pages/auth/login', { errorMessage: 'Please use a longer password' })
+            return
+            }
+
+            const salt = bcrypt.genSaltSync(bcryptSalt)
+            const hashPass = bcrypt.hashSync(password, salt)
+
+            User
+                .create({ email, password, name, nationality, birthday, favoriteCuisines, userImage })
+                .then(() => res.redirect('/auth'))
+                .catch(err => console.log('error', err))
+        })
+        .catch(err => console.log('error', err))
+})
 
 module.exports = router
