@@ -6,11 +6,9 @@ const userSchema = new Schema({
     email: String,
     password: String,
     name: String,
-    nationality: String,
-    birthday: Date,
-    userImage: {
-    path: String
-    },
+    description: String,
+    dateOfBirth: Date,
+    userImage: String,
     favoriteCuisines: [{
         type: String,
     }],

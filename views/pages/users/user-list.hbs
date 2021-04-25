@@ -1,17 +1,8 @@
-<div class="container">
+<div class="container user-list">
     <p><b>Logo</b></p>
-
-    <div class="row">
+    <h1>Meet new users</h1>
         {{#each users}}
-        <div class="col-md-3">
-            <h2>
-                <a href="/users/{{id}}">{{email}}</a>
-            </h2>
-        </div>
+            <img src="{{userImage}}" alt="{{name}}">
+            <a href="/users/{{id}}">{{name}}</a><br>
         {{/each}}
-    </div>
-
-
-
-    <a href="">Not an account yet? Create a profile</a>
 </div>

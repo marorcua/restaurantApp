@@ -15,12 +15,12 @@
             <input type="text" class="form-control" id="name" name="name">
         </div>
         <div class="form-group">
-            <label for="nationality">Nationality</label>
-            <input type="text" class="form-control" id="nationality" name="nationality">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description"></textarea>
         </div>
         <div class="form-group">
-            <label for="birthday">Date of birth</label>
-            <input type="date" class="form-control" id="birthday" name="birthday">
+            <label for="dateOfBirth">Date of birth</label>
+            <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth">
         </div>
         <div class="form-group">
             <label for="favoriteCuisine1">Favorite Cuisine 1</label>
@@ -51,7 +51,7 @@
         </div>
         <div class="form-group">
         <label for="userImage">Profile Image</label>
-        <input type="file" class="form-control-file" id="userImage" name="userImage">
+        <input type="text" class="form-control" id="userImage" name="userImage">
         </div>
         <button type="submit" class="btn btn-dark btn-block">Registrer</button>
         {{#if errorMessage}}

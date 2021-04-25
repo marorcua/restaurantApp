@@ -3,11 +3,22 @@ const User = require('../models/user.model')
 const router = express.Router()
 const { isAdmin, isCurrentUser } = require('./../utils')
 
+// Welcome page (GET)
+router.get('/', (req, res) => {
+
+        User
+        .find(req.session.currentUser)
+        .then(user => res.render('pages/users/index', {user}))
+        .catch(err => console.log('Error:', err))
+    
+})
+
 // Endpoints
 router.get('/list', (req, res) => {
 
     User
         .find()
+        .sort({ createdAt: -1 })
         .then(users => {
             res.render('pages/users/user-list', { users })
         })

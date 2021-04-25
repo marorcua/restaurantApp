@@ -5,21 +5,18 @@ body {
 .app-nav-bar {
   height: 7vh;
   background-color: black;
-  color: white; }
-
-.app-nav-bar ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 0;
-  list-style-type: none; }
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center; }
 
 .app-nav-bar li {
   padding: 2px 15px; }
 
 .app-nav-bar a {
   color: white;
-  font-size: 2.2em; }
+  font-size: 2em; }
 
 #map {
   height: 93vh;
@@ -29,5 +26,10 @@ body {
   border: 2px solid black !important;
   object-fit: cover;
   border-radius: 25px; }
+
+.user-list img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover; }
 
 /*# sourceMappingURL=style.css.map */

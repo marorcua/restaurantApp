@@ -7,15 +7,11 @@ body {
 .app-nav-bar {
   height: 7vh;
   background-color: black;
-  color: white
-}
-
-.app-nav-bar ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 0;
-  list-style-type: none;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .app-nav-bar li {
@@ -24,7 +20,7 @@ body {
 
 .app-nav-bar a {
   color: white;
-  font-size: 2.2em;
+  font-size: 2em;
 }
 
 // MAP
@@ -37,4 +33,11 @@ body {
   border: 2px solid rgb(0, 0, 0) !important;
   object-fit: cover;
   border-radius: 25px;
+}
+
+// USER LIST
+.user-list img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
 }

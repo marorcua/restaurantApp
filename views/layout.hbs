@@ -15,6 +15,14 @@
 
   <main>
     {{{body}}}
+    <nav class="app-nav-bar">
+      <div class="row">
+        <div class="col"><a href="/chat"><i class="far fa-comment-dots"></i></a></div>
+        <div class="col"><a href="/users/favorites"><i class="far fa-star"></i></a></div>
+        <div class="col"><a href="/users/appointments"><i class="far fa-calendar-check"></i></a></div>
+        <div class="col"><a href="/users/{{#each user}}{{id}}{{/each}}"><i class="far fa-user"></i></a></div>
+      </div>
+    </nav>
   </main>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
