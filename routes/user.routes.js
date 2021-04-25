@@ -1,7 +1,7 @@
 const express = require('express')
 const User = require('../models/user.model')
 const router = express.Router()
-const { isAdmin, isCurrenUser } = require('./../utils')
+const { isAdmin, isCurrentUser } = require('./../utils')
 
 // Endpoints
 router.get('/list', (req, res) => {
