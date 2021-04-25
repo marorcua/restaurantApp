@@ -1,8 +1,40 @@
+// GENERAL STYLES
 body {
   font-family: sans-serif;
   font-weight: 200;
 }
 
-.navbar {
-  margin-bottom: 50px;
+.app-nav-bar {
+  height: 7vh;
+  background-color: black;
+  color: white
+}
+
+.app-nav-bar ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0;
+  list-style-type: none;
+}
+
+.app-nav-bar li {
+    padding: 2px 15px;
+}
+
+.app-nav-bar a {
+  color: white;
+  font-size: 2.2em;
+}
+
+// MAP
+#map {
+  height: 93vh;
+  margin: 0;
+}
+
+#markerLayer img {
+  border: 2px solid rgb(0, 0, 0) !important;
+  object-fit: cover;
+  border-radius: 25px;
 }

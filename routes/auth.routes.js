@@ -6,6 +6,7 @@ const bcryptSalt = 10
 
 const mongoose = require('mongoose')
 
+const { localUpload } = require('../config/file-upload.config')
 const User = require('./../models/user.model')
 
 // Log in (GET)
@@ -36,7 +37,7 @@ router.post('/', (req, res) => {
             }
 
             req.session.currentUser = user
-            res.redirect('/')
+            res.redirect('/map')
         })
         .catch(err => console.log('error', err))
 })
@@ -45,9 +46,11 @@ router.post('/', (req, res) => {
 router.get('/sign-up', (req, res) => res.render('pages/auth/signup'))
 
 // Sign up (POST)
-router.post('/sign-up', (req, res) => {
+router.post('/sign-up', localUpload.single('userImage'), (req, res) => {
 
     const { email, password, name, nationality, birthday, favoriteCuisines, userImage } = req.body
+
+    console.log('Objeto file de Multer:', req.file)
 
     User
         .findOne({ email })
@@ -72,7 +75,7 @@ router.post('/sign-up', (req, res) => {
             const hashPass = bcrypt.hashSync(password, salt)
 
             User
-                .create({ email, password: hashPass, name, nationality, birthday, favoriteCuisines, userImage })
+                .create({ email, password: hashPass, name, nationality, birthday, favoriteCuisines, path: `/uploads/${req.file.filename}` })
                 .then(() => res.redirect('/auth'))
                 .catch(err => console.log('error', err))
         })

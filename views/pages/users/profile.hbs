@@ -1,0 +1,32 @@
+<div class="container">
+    {{#with user}}
+    <h1>User: {{email}}</h1>
+    <br>
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <h2>Name: {{name}}</h2>
+            <h2>Nationality: {{nationality}}</h2>
+            <h2>Birth: {{birthday}}</h2>
+            {{#each favoriteCuisines}}
+            <h2>Cuisine: {{this}}</h2>
+            {{/each}}
+        </div>
+        <div class="col-md-6">
+            <img src="{{userImage}}" alt="">
+        </div>
+    </div>
+
+    {{/with}}
+
+    {{#if isCurrenUser}}
+    <a href="/users/edit-profile/{{id}}">Edit |</a>
+    <a href="/users/delete/{{id}}">Delete</a>
+    {{/if}}
+
+    {{#if isAdmin}}
+    <a href="/users/edit-profile/{{id}}">Edit |</a>
+    <a href="/users/delete/{{id}}">Delete</a>
+    {{/if}}
+</div>

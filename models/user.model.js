@@ -8,18 +8,25 @@ const userSchema = new Schema({
     name: String,
     nationality: String,
     birthday: Date,
-    userImage: String,
+    userImage: {
+    path: String
+    },
     favoriteCuisines: [{
         type: String,
     }],
     favoriteRestaurants: [{
         type: Schema.Types.ObjectId,
         ref: 'Restaurant',
-      }],
+    }],
     restaurantAppointments: [{
         type: Schema.Types.ObjectId,
         ref: 'Restaurant',
-      }],
+    }],
+    role: {
+      type: String,
+      enum: ['USER', 'ADMIN'],
+      default: 'USER'
+    }
 }, {
     timestamps: true
 })

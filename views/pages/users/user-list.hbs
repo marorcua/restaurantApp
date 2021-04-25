@@ -1,0 +1,17 @@
+<div class="container">
+    <p><b>Logo</b></p>
+
+    <div class="row">
+        {{#each users}}
+        <div class="col-md-3">
+            <h2>
+                <a href="/users/{{id}}">{{email}}</a>
+            </h2>
+        </div>
+        {{/each}}
+    </div>
+
+
+
+    <a href="">Not an account yet? Create a profile</a>
+</div>
