@@ -1,0 +1,59 @@
+<div class="container">
+    <h1>User registration</h1>
+
+    <form action="/signup" method="POST">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="nationality">Nationality</label>
+            <input type="text" class="form-control" id="nationality" name="nationality">
+        </div>
+        <div class="form-group">
+            <label for="birthday">Date of birth</label>
+            <input type="date" class="form-control" id="birthday" name="birthday">
+        </div>
+        <div class="form-group">
+            <label for="favoriteCuisine1">Favorite Cuisine 1</label>
+            <select id="cars" name="cars" class="form-control" >
+                <option value="volvo">Spanish Food</option>
+                <option value="saab">Chinese Cuisine</option>
+                <option value="fiat">Japanese Food</option>
+                <option value="audi">Italian Food</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="favoriteCuisine1">Favorite Cuisine 2</label>
+            <select id="cars" name="cars" class="form-control">
+                <option value="volvo">Spanish Food</option>
+                <option value="saab">Chinese Cuisine</option>
+                <option value="fiat">Japanese Food</option>
+                <option value="audi">Italian Food</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="favoriteCuisine1">Favorite Cuisine 3</label>
+            <select id="cars" name="cars" class="form-control">
+                <option value="volvo">Spanish Food</option>
+                <option value="saab">Chinese Cuisine</option>
+                <option value="fiat">Japanese Food</option>
+                <option value="audi">Italian Food</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-dark btn-block">Registrer</button>
+        {{#if errorMessage}}
+        <div id="error">
+            <p>{{errorMessage}}</p>
+        </div>
+        {{/if}}
+    </form>
+</div>

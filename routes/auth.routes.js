@@ -13,19 +13,19 @@ router.get('/', (req, res) => res.render('pages/auth/login'))
 // Log in (POST)
 router.post('/', (req, res) => {
 
-    const { username, password } = req.body
+    const { email, password } = req.body
 
     User
-        .findOne({ username })
+        .findOne({ email })
         .then(user => {
 
-            if (username.length === 0 || password.length === 0) {
+            if (email.length === 0 || password.length === 0) {
             res.render('pages/auth/login', { errorMessage: 'Please fill all the fields' })
             return
             }
 
-            if (!user) {
-                res.render('pages/auth/login', { errorMessage: 'User not found' })
+            if (!email) {
+                res.render('pages/auth/login', { errorMessage: 'Email not found' })
                 return
             }
 
@@ -39,5 +39,8 @@ router.post('/', (req, res) => {
         })
         .catch(err => console.log('error', err))
 })
+
+// Sign up (GET)
+router.get('/sign-up', (req, res) => res.render('pages/auth/signup'))
 
 module.exports = router
