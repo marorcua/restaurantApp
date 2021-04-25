@@ -1,5 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const bcrypt = require("bcrypt")
+const bcryptSalt = 10
+
+const mongoose = require('mongoose')
+
+const User = require('./../models/user.model')
 
 // Log in (GET)
 router.get('/', (req, res) => res.render('pages/auth/login'))
