@@ -1,8 +1,8 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const router = express.Router()
 const bcrypt = require("bcrypt")
 const bcryptSalt = 10
-const { localUpload } = require('./../config/file-upload.config')
 
 const mongoose = require('mongoose')
 
@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
             }
 
             req.session.currentUser = user
-            res.redirect('/map')
+            res.redirect('/')
         })
         .catch(err => console.log('error', err))
 })
@@ -53,20 +53,20 @@ router.post('/sign-up', (req, res) => {
         .findOne({ email })
         .then(user => {
 
-            // if (user) {
-            //     res.render('pages/auth/signup', { errorMessage: 'User already registered' })
-            //     return
-            // }
+            if (user) {
+                res.render('pages/auth/signup', { errorMessage: 'User already registered' })
+                return
+            }
 
-            // if (email.length === 0 || password.length === 0 || name.length === 0 || nationality.length === 0 || birthday.length === 0) {
-            // res.render('pages/auth/signup', { errorMessage: 'Please fill all the fields' })
-            // return
-            // }
+            if (email.length === 0 || password.length === 0 || name.length === 0 || nationality.length === 0 || birthday.length === 0) {
+            res.render('pages/auth/signup', { errorMessage: 'Please fill all the fields' })
+            return
+            }
 
-            // if (password.length < 8) {
-            // res.render('pages/auth/login', { errorMessage: 'Please use a longer password' })
-            // return
-            // }
+            if (password.length < 6) {
+            res.render('pages/auth/signup', { errorMessage: 'Please use a longer password' })
+            return
+            }
 
             const salt = bcrypt.genSaltSync(bcryptSalt)
             const hashPass = bcrypt.hashSync(password, salt)
