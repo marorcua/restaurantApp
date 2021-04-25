@@ -4,6 +4,6 @@ module.exports = app => {
     // app.use('/', require('./base.routes.js'))
     app.use('/users', require('./user.routes.js'))
     // app.use('/restaurant', require('./restaurant.routes.js'))
-    app.use('/', require('./auth.routes.js'))
+    app.use('/auth', require('./auth.routes.js'))
 
 }

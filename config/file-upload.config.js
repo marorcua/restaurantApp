@@ -21,4 +21,4 @@ const localUpload = multer({ dest: './public/uploads/' })
 
 
 // Object export with both setups
-module.exports = { localUpload, CDNupload }
+module.exports = { localUpload }

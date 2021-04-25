@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require("bcrypt")
 const bcryptSalt = 10
+const { localUpload } = require('./../config/file-upload.config')
+const Picture = require('./../models/image.model')
 
 const mongoose = require('mongoose')
 
