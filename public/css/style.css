@@ -1,6 +1,7 @@
 body {
   font-family: sans-serif;
-  font-weight: 200; }
+  font-weight: 200;
+  margin-bottom: 80px; }
 
 .app-nav-bar {
   height: 7vh;
@@ -30,6 +31,16 @@ body {
 .user-list img {
   width: 50px;
   height: 50px;
+  object-fit: cover;
+  margin-right: 25px; }
+
+.user-list a {
+  color: black;
+  font-size: 1.2em; }
+
+.individual-user img {
+  width: 100%;
+  height: 200px;
   object-fit: cover; }
 
 /*# sourceMappingURL=style.css.map */

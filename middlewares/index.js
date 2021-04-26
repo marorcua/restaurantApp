@@ -5,7 +5,7 @@ module.exports = {
         next()
     }
     else {
-        res.render('pages/auth/login-form', { errorMessage: 'Inicia sesión para acceder' })
+        res.render('pages/auth/login', { errorMessage: 'Please Log in' })
     }
     }
 }

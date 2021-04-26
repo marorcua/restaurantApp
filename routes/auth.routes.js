@@ -1,12 +1,13 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const router = express.Router()
+const { emailIsValid } = require('./../utils')
 const bcrypt = require("bcrypt")
 const bcryptSalt = 10
 
 const mongoose = require('mongoose')
 
-const { localUpload } = require('../config/file-upload.config')
+const { CDNupload } = require('../config/file-upload.config')
 const User = require('./../models/user.model')
 
 // Log in (GET)
@@ -46,11 +47,11 @@ router.post('/', (req, res) => {
 router.get('/sign-up', (req, res) => res.render('pages/auth/signup'))
 
 // Sign up (POST)
-router.post('/sign-up', localUpload.single('userImage'), (req, res) => {
+router.post('/sign-up', CDNupload.single('userImage'), (req, res) => {
 
-    const { email, password, name, description, dateOfBirth, favoriteCuisines, userImage } = req.body
-
-    console.log('Objeto file de Multer:', req.file)
+    const { email, password, name, description, birthDay, favoriteCuisines} = req.body
+    const { path } = req.file
+    const userImage = { path }
 
     User
         .findOne({ email })
@@ -59,9 +60,14 @@ router.post('/sign-up', localUpload.single('userImage'), (req, res) => {
             if (user) {
                 res.render('pages/auth/signup', { errorMessage: 'User already registered' })
                 return
+            }  
+
+            if(emailIsValid(email) === false) {
+                res.render('pages/auth/signup', { errorMessage: 'Please enter a valid email' })
+                return
             }
 
-            if (email.length === 0 || password.length === 0 || name.length === 0 || description.length === 0 || dateOfBirth.length === 0 || userImage.length === 0) {
+            if (email.length === 0 || password.length === 0 || name.length === 0 || description.length === 0 || birthDay.length === 0) {
             res.render('pages/auth/signup', { errorMessage: 'Please fill all the fields' })
             return
             }
@@ -75,11 +81,16 @@ router.post('/sign-up', localUpload.single('userImage'), (req, res) => {
             const hashPass = bcrypt.hashSync(password, salt)
 
             User
-                .create({ email, password: hashPass, name, description, dateOfBirth, favoriteCuisines, userImage })
+                .create({ email, password: hashPass, name, description, birthDay, favoriteCuisines, userImage })
                 .then(() => res.redirect('/auth'))
                 .catch(err => console.log('error', err))
         })
         .catch(err => console.log('error', err))
+})
+
+// LOG OUT (POST)
+router.get('/log-out', (req, res) => {
+    req.session.destroy((err) => res.redirect("/"));
 })
 
 

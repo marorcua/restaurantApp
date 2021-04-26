@@ -5,7 +5,7 @@
     <a href="/map">Discover new restaurants</a><br>
     <a href="/users/list">Meet new people</a>
     <hr>
-    <a href="/users/profile/{{id}}">My profile</a><br>
+    <a href="/users/{{#each user}}{{id}}{{/each}}">My profile</a><br>
     <a href="/restaurants/favorites">My favorite restaurants</a><br>
     <a href="/restaurants/appointments">My appointments</a><br>
     <a href="/chat">My chats</a>

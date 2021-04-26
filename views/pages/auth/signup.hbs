@@ -1,7 +1,7 @@
 <div class="container">
     <h1>User registration</h1>
 
-    <form action="/auth/sign-up" method="POST">
+    <form action="/auth/sign-up" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" class="form-control" id="email" name="email">
@@ -19,12 +19,12 @@
             <textarea class="form-control" id="description" name="description"></textarea>
         </div>
         <div class="form-group">
-            <label for="dateOfBirth">Date of birth</label>
-            <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth">
+            <label for="birthDay">Date of birth</label>
+            <input type="date" class="form-control" id="birthDay" name="birthDay">
         </div>
         <div class="form-group">
             <label for="favoriteCuisine1">Favorite Cuisine 1</label>
-            <select id="favoriteCuisines" name="favoriteCuisines" class="form-control" >
+            <select id="favoriteCuisines" name="favoriteCuisines" class="form-control">
                 <option value="spanish">Spanish Food</option>
                 <option value="chinese">Chinese Cuisine</option>
                 <option value="japanese">Japanese Food</option>
@@ -50,8 +50,8 @@
             </select>
         </div>
         <div class="form-group">
-        <label for="userImage">Profile Image</label>
-        <input type="text" class="form-control" id="userImage" name="userImage">
+            <label for="userImage">Profile Image</label>
+            <input type="file" class="form-control-file" id="userImage" name="userImage">
         </div>
         <button type="submit" class="btn btn-dark btn-block">Registrer</button>
         {{#if errorMessage}}

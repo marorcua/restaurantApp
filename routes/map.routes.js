@@ -1,9 +1,10 @@
 const express = require('express')
 const User = require('../models/user.model')
 const router = express.Router()
+const { isLoggedIn } = require('./../middlewares')
 
 // Endpoints
-router.get('/', (req, res) => {
+router.get('/', isLoggedIn, (req, res) => {
 
     User
         .find(req.session.currentUser)

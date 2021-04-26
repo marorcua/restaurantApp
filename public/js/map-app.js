@@ -17,7 +17,7 @@ function getCurrentUser() {
 }
 
 function getUserDatas(user) {
-    const iconUrl = user[0].userImage
+    const iconUrl = user[0].userImage.path
 
     if (navigator.geolocation) {
 
@@ -26,10 +26,7 @@ function getUserDatas(user) {
             err => console.log('The user did not allow to access to his position', err)
         )
     } else console.error('YOU DO NOT HAVE ANY GEOLOCATOR')
-    
 }
-
-
 
 function drawIcon(coords, iconUrl) {
     const position = { lat: coords.latitude, lng: coords.longitude }

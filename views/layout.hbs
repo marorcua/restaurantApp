@@ -14,9 +14,43 @@
 <body>
 
   <main>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        
+        <span class="navbar-toggler-icon"></span>
+      </button>logo
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/map">Discover new restaurants</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/list">Meet new people</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/{{#each user}}{{id}}{{/each}}">My profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/">Log In</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/sign-up">Sign Up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/log-out">Log out</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     {{{body}}}
     <nav class="app-nav-bar">
       <div class="row">
+        <div class="col"><a href="/map"><i class="far fa-map"></i></a></div>
         <div class="col"><a href="/chat"><i class="far fa-comment-dots"></i></a></div>
         <div class="col"><a href="/users/favorites"><i class="far fa-star"></i></a></div>
         <div class="col"><a href="/users/appointments"><i class="far fa-calendar-check"></i></a></div>

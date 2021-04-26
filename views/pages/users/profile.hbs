@@ -1,32 +1,33 @@
-<div class="container">
+<div class="container individual-user">
     {{#with user}}
-    <h1>User: {{email}}</h1>
-    <br>
-
-    <div class="row">
-        <div class="col-md-6">
-
-            <h2>Name: {{name}}</h2>
-            <h2>Nationality: {{nationality}}</h2>
-            <h2>Birth: {{birthday}}</h2>
-            {{#each favoriteCuisines}}
-            <h2>Cuisine: {{this}}</h2>
-            {{/each}}
-        </div>
-        <div class="col-md-6">
-            <img src="{{userImage}}" alt="">
-        </div>
-    </div>
+    <img src="{{userImage.path}}" alt="{{name}}">
+    <h1>{{name}}</h1>
+    <p>{{description}}</p>
+    {{/with}}
+    <hr>
+    <p><b>Age:</b> {{userAge}} years old</p>
+    {{#with user}}
+    <p><b>My favorite cuisines:</b></p>
+    <ul>
+        {{#each favoriteCuisines}}
+        <li>Cuisine: {{this}}</li>
+        {{/each}}
+    </ul>
 
     {{/with}}
 
-    {{#if isCurrenUser}}
-    <a href="/users/edit-profile/{{id}}">Edit |</a>
-    <a href="/users/delete/{{id}}">Delete</a>
+    {{#if isNotCurrentUser}}
+    <h2>Chat with {{user.name}}</h2>
+    {{/if}}
+
+    {{#if isCurrentUser}}
+    <a href="/users/edit/{{user.id}}">Edit my profile |</a>
+    <a href="/users/delete/{{user.id}}">Delete my profile</a>
     {{/if}}
 
     {{#if isAdmin}}
-    <a href="/users/edit-profile/{{id}}">Edit |</a>
-    <a href="/users/delete/{{id}}">Delete</a>
+    <a href="/users/edit/{{user.id}}">Edit profile |</a>
+    <a href="/users/delete/{{user.id}}">Delete profile</a>
     {{/if}}
+
 </div>

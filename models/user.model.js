@@ -7,8 +7,10 @@ const userSchema = new Schema({
     password: String,
     name: String,
     description: String,
-    dateOfBirth: Date,
-    userImage: String,
+    birthDay: Date,
+    userImage: {
+        path: String
+    },
     favoriteCuisines: [{
         type: String,
     }],
