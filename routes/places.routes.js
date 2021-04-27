@@ -11,14 +11,11 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const { location } = req.session.currentUser
 
-    console.log(req.body);
-    // const { city } = (req.body.city === '') ? "" : req.body
-    // const { radius } = (req.body.radius === '') ? "" : req.body
+    //console.log(req.body);
 
     const { city, radius, rankBy } = req.body
-    console.log(radius)
 
-    let searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?key=AIzaSyCfqKJkHf1_N7lRNCB_Y0UI4NvUGmAiNjU`
+    let searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${process.env.GOOGLE_API}`
 
 
     let newUrl = searchUrl.concat(`&query=restaurants+${city}`)
@@ -38,7 +35,7 @@ router.post('/', (req, res) => {
         .get(newUrl)
         .then(response => {
             const result = response.data.results
-            console.log(result);
+
             results = result.map(value => {
                 const rating = value.rating
                 const name = value.name
@@ -48,7 +45,7 @@ router.post('/', (req, res) => {
                 const user_ratings = value.user_ratings_total
                 const photoSearch = (value.photos === undefined) ? null : value.photos.map(elm => {
                     const photoRef = elm.photo_reference
-                    const searchPhoto = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&sensor=false&key=AIzaSyCfqKJkHf1_N7lRNCB_Y0UI4NvUGmAiNjU`
+                    const searchPhoto = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&sensor=false&key=${process.env.GOOGLE_API}`
                     return searchPhoto
                 })
                 // const photoSearch = value.photos
