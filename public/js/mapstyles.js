@@ -1,5 +1,5 @@
 const mapStyles = {
-  custom: [
+  restaurant: [
   {
     "featureType": "administrative.land_parcel",
     "stylers": [
@@ -62,6 +62,24 @@ const mapStyles = {
   {
     "featureType": "water",
     "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  }
+],
+users: [
+  {
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.neighborhood",
     "stylers": [
       {
         "visibility": "off"

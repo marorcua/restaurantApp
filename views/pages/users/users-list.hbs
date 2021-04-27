@@ -1,8 +1,8 @@
 <div class="container user-list">
     <h1>Meet new users</h1>
         {{#each users}}
-            <img src="{{userImage.path}}" alt="{{name}}">
-            <a href="/users/{{id}}">{{name}}</a>
+            <a href="/users/{{id}}"><img src="{{userImage.path}}" alt="{{name}}">
+            {{name}}</a>
             <hr>
         {{/each}}
 </div>

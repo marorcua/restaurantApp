@@ -4,7 +4,7 @@ function initMap() {
 
   map = new google.maps.Map(
     document.querySelector('#map'),
-    { zoom: 16, center: { lat: 40.4183915, lng: -3.7086309 }, styles: mapStyles.custom }
+    { zoom: 16, center: { lat: 40.4183915, lng: -3.7086309 }, styles: mapStyles.restaurant }
   )
   getCurrentUser()
 }
@@ -17,7 +17,7 @@ function getCurrentUser() {
 }
 
 function getUserDatas(user) {
-    const iconUrl = user[0].userImage.path
+    const iconUrl = user.userImage.path
 
     if (navigator.geolocation) {
 

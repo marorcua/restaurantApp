@@ -3,6 +3,14 @@ body {
   font-weight: 200;
   margin-bottom: 80px; }
 
+h1 {
+  margin: 25px 0;
+  font-size: 1.7em;
+  font-weight: 100; }
+
+.red-text {
+  color: #c40a0a; }
+
 .app-nav-bar {
   height: 7vh;
   background-color: black;
@@ -20,7 +28,7 @@ body {
   font-size: 2em; }
 
 #map {
-  height: 93vh;
+  height: 88vh;
   margin: 0; }
 
 #markerLayer img {
@@ -36,11 +44,24 @@ body {
 
 .user-list a {
   color: black;
-  font-size: 1.2em; }
+  font-size: 1.2em;
+  font-weight: 600; }
 
 .individual-user img {
   width: 100%;
   height: 200px;
   object-fit: cover; }
+
+.chat-individual form {
+  position: fixed;
+  bottom: 0;
+  padding: 10px 0 80px;
+  width: 90%;
+  background-color: white; }
+
+.chat-box {
+  margin-top: 25px;
+  height: 425px;
+  overflow: auto; }
 
 /*# sourceMappingURL=style.css.map */
