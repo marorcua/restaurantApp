@@ -15,5 +15,7 @@ module.exports = {
         age--;
     }
     return age
-}
+    },
+    isSender: (id, message) => message.sender && message.sender._id === id,
+    isReceiver: (id, message) => message.receiver && message.receiver._id === id,
 }

@@ -1,4 +1,3 @@
-// User model development
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -26,7 +25,12 @@ const userSchema = new Schema({
       type: String,
       enum: ['USER', 'ADMIN'],
       default: 'USER'
-    }
+    },
+    location: {
+        long: Number,
+        lat: Number,
+    },
+
 }, {
     timestamps: true
 })

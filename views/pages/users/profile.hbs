@@ -17,12 +17,14 @@
     {{/with}}
 
     {{#if isNotCurrentUser}}
-    <h2>Chat with {{user.name}}</h2>
+    <form action="/chat/{{user.id}}" method="POST">
+        <button type="submit" class="btn btn-dark btn-block">Chat with {{user.name}}</button>  
+    </form>
     {{/if}}
 
     {{#if isCurrentUser}}
     <a href="/users/edit/{{user.id}}">Edit my profile |</a>
-    <a href="/users/delete/{{user.id}}">Delete my profile</a>
+    <a class="red-text" href="/users/delete/{{user.id}}">Delete my profile</a>
     {{/if}}
 
     {{#if isAdmin}}
