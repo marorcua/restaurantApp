@@ -1,0 +1,45 @@
+<div class="container">
+    <form action="/places" method="POST">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" placeholder="City" name='city'>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="radius">Radius</label>
+                    <input type="text" class="form-control" id="radius" placeholder="Radius (m)" name='radius'>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="rankBy">Rank by</label>
+                    <input type="text" class="form-control" id="rankBy" name='rankBy'>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+    </form>
+    {{#each results}}
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h3>Name: {{name}}</h3>
+            <button class="like">&#9825</button>
+            <p>Price: {{price}}</p>
+            <p>Rating: {{rating}}</p>
+            <p>User ratings: {{user_ratings}}</p>
+            <p>{{address}}</p>
+        </div>
+        <div class="col-md-6">
+            <img src="{{photoSearch}}" alt="restaurant-photo">
+        </div>
+
+    </div>
+    <hr>
+    {{/each}}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/restaurant-app.js"></script>

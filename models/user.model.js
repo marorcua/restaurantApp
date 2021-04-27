@@ -22,15 +22,18 @@ const userSchema = new Schema({
         ref: 'Restaurant',
     }],
     role: {
-      type: String,
-      enum: ['USER', 'ADMIN'],
-      default: 'USER'
+        type: String,
+        enum: ['USER', 'ADMIN'],
+        default: 'USER'
     },
     location: {
-        long: Number,
-        lat: Number,
-    },
-
+        lat: {
+            type: Number,
+        },
+        long: {
+            type: Number
+        }
+    }
 }, {
     timestamps: true
 })

@@ -10,6 +10,8 @@ h1 {
 
 .red-text {
   color: #c40a0a; }
+img {
+  width: 100%; }
 
 .app-nav-bar {
   height: 7vh;
@@ -63,5 +65,8 @@ h1 {
   margin-top: 25px;
   height: 425px;
   overflow: auto; }
+.like {
+  background-color: white;
+  border: none; }
 
 /*# sourceMappingURL=style.css.map */

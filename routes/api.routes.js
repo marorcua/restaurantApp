@@ -7,8 +7,11 @@ const User = require('./../models/user.model')
 router.get('/user', (req, res) => {
 
     User
-        .findById(req.session.currentUser)
-        .then(user => res.json(user))
+        .findById(req.session.currentUser._id)
+        .then(user => {
+            console.log(user);
+            res.json(user)
+        })
         .catch(err => console.log('Error:', err))
 })
 
