@@ -3,6 +3,9 @@ body {
   font-weight: 200;
   margin-bottom: 80px; }
 
+img {
+  width: 100%; }
+
 .app-nav-bar {
   height: 7vh;
   background-color: black;
@@ -42,5 +45,9 @@ body {
   width: 100%;
   height: 200px;
   object-fit: cover; }
+
+.like {
+  background-color: white;
+  border: none; }
 
 /*# sourceMappingURL=style.css.map */
