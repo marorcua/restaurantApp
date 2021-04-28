@@ -9,10 +9,10 @@ router.get('/', (req, res) => {
 })
 
 
-router.post('/', (req, res) => {
+router.post('/info', (req, res) => {
     const { location } = req.session.currentUser
 
-    console.log(req.body.desdencingRadio);
+    console.log(req.query);
 
     const { city, radius, rankBy, desdencingRadio } = req.body
 

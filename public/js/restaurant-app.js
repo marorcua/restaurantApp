@@ -1,3 +1,16 @@
+
+document.getElementById("search").addEventListener("click", (event) => {
+    event.preventDefault()
+
+    const inputs = document.querySelector('.operation.delete input')
+
+    axios
+        .get('/places/info')
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
+})
+
+
 getLocation()
 
 function getLocation() {
