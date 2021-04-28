@@ -65,11 +65,18 @@ router.post('/conversation/:id', isLoggedIn, (req, res) => {
 
     const messageSent = { message, writer, dateSent}
 
+    if(message.length === 0) {
+        res.render('pages/chat/chat-individual', { errorMessage: 'Please write a message' })
+    }
+
+    if(message.length > 300) {
+        res.redirect(`/chat/${req.params.id}`, { errorMessage: 'Please write a shorter message' })
+    }
+
     Chat
         .findByIdAndUpdate(req.params.id, { $push: { conversation: messageSent }})
         .then(() => res.redirect(`/chat/${req.params.id}`))
         .catch(err => console.log('Error:', err))
-
-})
+    })
 
 module.exports = router

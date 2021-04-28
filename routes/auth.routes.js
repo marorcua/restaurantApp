@@ -66,11 +66,6 @@ router.post('/sign-up', CDNupload.single('userImage'), (req, res) => {
                 return
             }
 
-            if (email.length === 0 || password.length === 0 || name.length === 0 || description.length === 0 || birthDay.length === 0) {
-            res.render('pages/auth/signup', { errorMessage: 'Please fill all the fields' })
-            return
-            }
-
             if (password.length < 6) {
             res.render('pages/auth/signup', { errorMessage: 'Please use a longer password' })
             return
@@ -92,7 +87,13 @@ router.post('/sign-up', CDNupload.single('userImage'), (req, res) => {
             User
                 .create({ email, password: hashPass, name, description, birthDay, favoriteCuisines, userImage, location })
                 .then(() => res.redirect('/auth'))
-                .catch(err => console.log('error', err))
+                .catch(err => {
+                    if (err instanceof mongoose.Error.ValidationError) {
+                        res.render('pages/auth/signup', { errorMessage: formatValidationError(err) })
+                    } else {
+                        next()
+                    }
+            })
         })
         .catch(err => console.log('error', err))
 })

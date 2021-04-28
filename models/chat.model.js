@@ -3,7 +3,9 @@ const Schema = mongoose.Schema
 
 const chatSchema = new Schema({
     conversation: [{
-        message: String,
+        message: {
+        type: String,
+        },
         writer: {
             type: Schema.Types.ObjectId,
             ref: 'User',
