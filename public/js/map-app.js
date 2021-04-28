@@ -52,3 +52,25 @@ function drawIcon(coords, iconUrl) {
 
 
 // 
+
+
+
+/*
+button.presionado = () => {
+
+    axios.post("/api", datos).then(
+        response =>{
+            response.data === datos_para_mapa
+            pintas markers con response data
+        }
+    )
+}
+*/
+
+/*
+    router.post("/api", ()=> {
+        req.body.datos
+        hara cossas
+        res.json(datos_para_mapa)
+    })
+*/
