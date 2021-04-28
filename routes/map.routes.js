@@ -5,10 +5,11 @@ const { isLoggedIn } = require('./../middlewares')
 
 // Endpoints
 router.get('/', isLoggedIn, (req, res) => {
+    console.log(req.body)
 
     User
         .find(req.session.currentUser)
-        .then(user => res.render('pages/map/index', {user}))
+        .then(user => res.render('pages/map/index', { user }))
         .catch(err => console.log('Error:', err))
 })
 

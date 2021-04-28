@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const https = require('https')
 const axios = require("axios")
+const { RSA_NO_PADDING } = require('constants')
 // Endpoints
 router.get('/', (req, res) => {
     res.render('pages/places/search')
@@ -11,9 +12,9 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const { location } = req.session.currentUser
 
-    //console.log(req.body);
+    console.log(req.body.desdencingRadio);
 
-    const { city, radius, rankBy } = req.body
+    const { city, radius, rankBy, desdencingRadio } = req.body
 
     let searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${process.env.GOOGLE_API}`
 
@@ -22,8 +23,8 @@ router.post('/', (req, res) => {
 
     if (radius !== "") {
         newUrl = newUrl.concat("&radius=" + radius + "@" + location.lat + "," + location.long)
-    } else if (rankBy !== "") {
-        newUrl = newUrl.concat("&rankby=" + rankBy + "&location=" + location.lat + "," + location.long)
+        // } else if (rankBy !== "") {
+        //     newUrl = newUrl.concat("&rankby=" + rankBy + "&location=" + location.lat + "," + location.long)
     }
     else if (city === "") {
         newUrl = newUrl.concat("&location=" + location.lat + "," + location.long)
@@ -36,7 +37,7 @@ router.post('/', (req, res) => {
         .then(response => {
             const result = response.data.results
 
-            results = result.map(value => {
+            return results = result.map(value => {
                 const rating = value.rating
                 const name = value.name
                 const address = value.formatted_address
@@ -48,14 +49,36 @@ router.post('/', (req, res) => {
                     const searchPhoto = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&sensor=false&key=${process.env.GOOGLE_API}`
                     return searchPhoto
                 })
-                // const photoSearch = value.photos
                 return { rating, name, address, price, location, user_ratings, photoSearch }
             })
+        })
+        .then(results => {
 
-            console.log(results);
+            return results.sort((a, b) => {
+                let firstItem = a[rankBy]
+                let secondItem = b[rankBy]
+                console.log(typeof a.price);
+                //return b[rankBy] - a[rankBy]
+                if (typeof firstItem === 'number' || firstItem === undefined) {
+                    if (desdencingRadio === "ascending") {
+                        return firstItem - secondItem
+                    } else {
+                        return secondItem - firstItem
+                    }
+                } else {
+                    if (desdencingRadio === "ascending") {
+                        return firstItem.localeCompare(secondItem)
+                    } else {
+                        return secondItem.localeCompare(firstItem)
+                    }
+                }
+            })
+        })
+        .then(results => {
+            //console.log(results);
+            // res.redirect('/map/', { results })
             res.render('pages/places/search', { results })
         })
-
 })
 
 

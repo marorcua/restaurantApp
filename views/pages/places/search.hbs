@@ -1,6 +1,6 @@
 <div class="container">
     <form action="/places" method="POST">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center align-items-center">
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="city">City</label>
@@ -16,10 +16,36 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="rankBy">Rank by</label>
-                    <input type="text" class="form-control" id="rankBy" name='rankBy'>
+                    <select id="rankBy" name="rankBy" class="form-control">
+                        <option value="select">Select</option>
+                        <option value="rating">Rating</option>
+                        <option value="distance">Distance</option>
+                        <option value="name">Name</option>
+                        <option value="price">Price</option>
+                        <option value="user_ratings">User ratings</option>
+                    </select>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Sign in</button>
+            <div class="col-md-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="desdencingRadio" id="descending"
+                        value="descending" checked>
+                    <label class="form-check-label" for="descending">
+                        Descending
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="desdencingRadio" id="ascending"
+                        value="ascending">
+                    <label class="form-check-label" for="ascending">
+                        Ascending
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-1">
+
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
         </div>
     </form>
     {{#each results}}
