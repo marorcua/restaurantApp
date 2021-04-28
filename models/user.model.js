@@ -5,7 +5,6 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: [true, 'Please write your email'],
-        unique: [true, 'This email is already registered'],
         validate: {
             validator: function(email) {
             return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
@@ -15,8 +14,6 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        min: [6, 'Please write a longer password'],
-        required: [true, 'Please write a password']
     },
     name: {
         type: String,
