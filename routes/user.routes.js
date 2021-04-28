@@ -46,7 +46,7 @@ router.get('/:id', isLoggedIn, (req, res) => {
     User
         .findById(req.params.id)
         .then(user => {
-            let userAge = getAge(user.birthDay)
+            const userAge = getAge(user.birthDay)
             res.render('pages/users/profile', { user, userAge, isCurrentUser: isCurrentUser(req.params.id, req.session.currentUser), isNotCurrentUser: isNotCurrentUser(req.params.id, req.session.currentUser), isAdmin: isAdmin(req.session.currentUser) })
         })
         .catch(err => console.log(err))

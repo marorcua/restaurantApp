@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt")
 const bcryptSalt = 10
 
 const { LogInBlocked } = require('./../middlewares')
+const { getAge } = require('./../utils')
+
 const { CDNupload } = require('../config/file-upload.config')
 
 const mongoose = require('mongoose')
@@ -43,13 +45,17 @@ router.post('/', (req, res) => {
 })
 
 // Sign up (GET)
-router.get('/sign-up', (req, res) => res.render('pages/auth/signup'))
+router.get('/sign-up', (req, res) => {
+    req.session.destroy()
+    res.render('pages/auth/signup')
+})
 
 // Sign up (POST)
 router.post('/sign-up', CDNupload.single('userImage'), (req, res) => {
 
-    if(req.files === undefined ) {
-        res.render('pages/auth/signup', { errorMessage: 'Please upload a file' })
+
+    if(req.file == undefined ) {
+        res.render('pages/auth/signup', { errorMessage: 'Please upload an image' })
         return
     }
 
@@ -57,6 +63,12 @@ router.post('/sign-up', CDNupload.single('userImage'), (req, res) => {
     const location = {lat: 40.4169019, long: -3.7056721}
     const { path } = req.file
     const userImage = { path }
+    const userAge = getAge(birthDay)
+
+    if (userAge < 18 ) {
+        res.render('pages/auth/signup', { errorMessage: 'You must be 18 years or older to use this app' })
+        return
+    }
 
     User
         .findOne({ email })
@@ -82,7 +94,7 @@ router.post('/sign-up', CDNupload.single('userImage'), (req, res) => {
                 .then(() => res.redirect('/auth'))
                 .catch(err => {
                     if (err instanceof mongoose.Error.ValidationError) {
-                        console.log(err.errors)
+                        res.render('pages/auth/signup', { errorMongoose: err.errors })
                     } else {
                         next()
                     }
