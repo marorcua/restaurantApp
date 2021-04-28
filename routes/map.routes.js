@@ -4,11 +4,12 @@ const router = express.Router()
 const { isLoggedIn } = require('./../middlewares')
 
 // Endpoints
-router.get('/map', isLoggedIn, (req, res) => {
+router.get('/', isLoggedIn, (req, res) => {
+    console.log(req.body)
 
     User
-        .findById(req.session.currentUser)
-        .then(user => res.render('pages/restaurants/restaurant-map', { user }))
+        .find(req.session.currentUser)
+        .then(user => res.render('pages/map/index', { user }))
         .catch(err => console.log('Error:', err))
 })
 

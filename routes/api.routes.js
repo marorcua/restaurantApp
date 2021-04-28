@@ -16,7 +16,9 @@ router.get('/user', (req, res) => {
 })
 
 router.put('/user', (req, res) => {
+
     const { location } = req.body
+
     User
         .findByIdAndUpdate(req.session.currentUser._id, { location }, { new: true })
         .then(user => {
@@ -25,13 +27,6 @@ router.put('/user', (req, res) => {
         .catch(err => console.log('Error:', err))
 })
 
-// http://localhost:3000/api/users
-router.get('/users', (req, res) => {
 
-    User
-        .find()
-        .then(users => res.json(users))
-        .catch(err => console.log('Error:', err))
-})
 
 module.exports = router

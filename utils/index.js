@@ -24,7 +24,5 @@ module.exports = {
         }
         return 0;
 
-    },
-    isSender: (id, message) => message.sender && message.sender._id === id,
-    isReceiver: (id, message) => message.receiver && message.receiver._id === id,
+    }
 }

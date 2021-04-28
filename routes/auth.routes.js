@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
             if (bcrypt.compareSync(password, user.password) === false) {
                 res.render('pages/auth/login', { errorMessage: 'Incorrect password' })
                 return
-            } 
+            }
 
             req.session.currentUser = user
             res.redirect('/users')
@@ -50,7 +50,6 @@ router.get('/sign-up', (req, res) => res.render('pages/auth/signup'))
 router.post('/sign-up', CDNupload.single('userImage'), (req, res) => {
 
     const { email, password, name, description, birthDay, favoriteCuisines} = req.body
-    const location = {long: 40.4169019, lat: -3.7056721}
     const { path } = req.file
     const userImage = { path }
 
@@ -78,21 +77,11 @@ router.post('/sign-up', CDNupload.single('userImage'), (req, res) => {
             return
             }
 
-            if (name.length > 15) {
-            res.render('pages/auth/signup', { errorMessage: 'Please use a shorter name' })
-            return
-            }
-
-            if (description.length > 300) {
-            res.render('pages/auth/signup', { errorMessage: 'Please write a shorter description' })
-            return
-            }
-
             const salt = bcrypt.genSaltSync(bcryptSalt)
             const hashPass = bcrypt.hashSync(password, salt)
 
             User
-                .create({ email, password: hashPass, name, description, birthDay, favoriteCuisines, userImage, location })
+                .create({ email, password: hashPass, name, description, birthDay, favoriteCuisines, userImage })
                 .then(() => res.redirect('/auth'))
                 .catch(err => console.log('error', err))
         })

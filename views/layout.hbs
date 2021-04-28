@@ -27,16 +27,13 @@
             <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/restaurants/map">Discover new restaurants</a>
+            <a class="nav-link" href="/map">Discover new restaurants</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/users/list">New users</a>
+            <a class="nav-link" href="/users/list">Meet new people</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/users/map">Meet people</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/users/{{user.id}}">My profile</a>
+            <a class="nav-link" href="/users/{{#each user}}{{id}}{{/each}}">My profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/auth/">Log In</a>
@@ -53,11 +50,11 @@
     {{{body}}}
     <nav class="app-nav-bar">
       <div class="row">
-        <div class="col"><a href="/restaurants/map"><i class="far fa-map"></i></a></div>
+        <div class="col"><a href="/map"><i class="far fa-map"></i></a></div>
         <div class="col"><a href="/chat"><i class="far fa-comment-dots"></i></a></div>
         <div class="col"><a href="/users/favorites"><i class="far fa-star"></i></a></div>
         <div class="col"><a href="/users/appointments"><i class="far fa-calendar-check"></i></a></div>
-        <div class="col"><a href="/users/{{user.id}}"><i class="far fa-user"></i></a></div>
+        <div class="col"><a href="/users/{{#each user}}{{id}}{{/each}}"><i class="far fa-user"></i></a></div>
       </div>
     </nav>
   </main>
