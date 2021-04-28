@@ -62,8 +62,17 @@ router.post('/conversation/:id', isLoggedIn, (req, res) => {
     const { message }  = req.body
     const writer = req.session.currentUser._id
     const dateSent = new Date()
-
     const messageSent = { message, writer, dateSent}
+
+    if (message.length === 0) {
+        res.render('pages/chat/chat-individual', { errorMessage: 'Please write a message before sending it' })
+        return
+    }
+
+    if (message.length > 300) {
+        res.render('pages/chat/chat-individual', { errorMessage: 'Please write a shorter message' })
+        return
+    }
 
     Chat
         .findByIdAndUpdate(req.params.id, { $push: { conversation: messageSent }})

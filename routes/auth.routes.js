@@ -3,9 +3,9 @@ const router = express.Router()
 const bcrypt = require("bcrypt")
 const bcryptSalt = 10
 
-const { emailIsValid } = require('./../utils')
 const { CDNupload } = require('../config/file-upload.config')
 
+const mongoose = require('mongoose')
 const User = require('./../models/user.model')
 
 // Log in (GET)
@@ -54,37 +54,7 @@ router.post('/sign-up', CDNupload.single('userImage'), (req, res) => {
 
     User
         .findOne({ email })
-        .then(user => {
-
-            if (user) {
-                res.render('pages/auth/signup', { errorMessage: 'User already registered' })
-                return
-            }  
-
-            if(emailIsValid(email) === false) {
-                res.render('pages/auth/signup', { errorMessage: 'Please enter a valid email' })
-                return
-            }
-
-            if (email.length === 0 || password.length === 0 || name.length === 0 || description.length === 0 || birthDay.length === 0) {
-            res.render('pages/auth/signup', { errorMessage: 'Please fill all the fields' })
-            return
-            }
-
-            if (password.length < 6) {
-            res.render('pages/auth/signup', { errorMessage: 'Please use a longer password' })
-            return
-            }
-
-            if (name.length > 15) {
-            res.render('pages/auth/signup', { errorMessage: 'Please use a shorter name' })
-            return
-            }
-
-            if (description.length > 300) {
-            res.render('pages/auth/signup', { errorMessage: 'Please write a shorter description' })
-            return
-            }
+        .then(() => {
 
             const salt = bcrypt.genSaltSync(bcryptSalt)
             const hashPass = bcrypt.hashSync(password, salt)
@@ -92,7 +62,14 @@ router.post('/sign-up', CDNupload.single('userImage'), (req, res) => {
             User
                 .create({ email, password: hashPass, name, description, birthDay, favoriteCuisines, userImage, location })
                 .then(() => res.redirect('/auth'))
-                .catch(err => console.log('error', err))
+                .catch(err => {
+                    if (err instanceof mongoose.Error.ValidationError) {
+                        console.log(err.errors)
+                        res.render('pages/auth/signup', { errorMessage: err.errors })
+                    } else {
+                        next()
+                    }
+                })
         })
         .catch(err => console.log('error', err))
 })
