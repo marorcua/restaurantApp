@@ -5,19 +5,11 @@ console.log(results);
 
 function initMap() {
 
-<<<<<<< HEAD:public/js/restaurant-map-app.js
   map = new google.maps.Map(
     document.querySelector('#map'),
     { zoom: 16, center: { lat: 40.4183915, lng: -3.7086309 }, styles: mapStyles.restaurant }
   )
   getCurrentUser()
-=======
-    map = new google.maps.Map(
-        document.querySelector('#map'),
-        { zoom: 16, center: { lat: 40.4183915, lng: -3.7086309 }, styles: mapStyles.custom }
-    )
-    getCurrentUser()
->>>>>>> mario:public/js/map-app.js
 }
 
 function getCurrentUser() {
