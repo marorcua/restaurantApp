@@ -1,13 +1,11 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const router = express.Router()
-const { emailIsValid } = require('./../utils')
 const bcrypt = require("bcrypt")
 const bcryptSalt = 10
 
-const mongoose = require('mongoose')
-
+const { emailIsValid } = require('./../utils')
 const { CDNupload } = require('../config/file-upload.config')
+
 const User = require('./../models/user.model')
 
 // Log in (GET)

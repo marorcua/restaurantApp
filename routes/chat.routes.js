@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 var hbs = require('hbs')
-const { isLoggedIn } = require('./../middlewares')
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'))
+
+const { isLoggedIn } = require('./../middlewares')
 
 const Chat = require('../models/chat.model')
 

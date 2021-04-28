@@ -1,9 +1,11 @@
 const express = require('express')
-const User = require('../models/user.model')
+
 const router = express.Router()
 const { isLoggedIn } = require('./../middlewares')
 
-// Endpoints
+const User = require('../models/user.model')
+
+// Restaurant map (GET)
 router.get('/map', isLoggedIn, (req, res) => {
 
     User
