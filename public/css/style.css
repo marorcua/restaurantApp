@@ -10,6 +10,7 @@ h1 {
 
 .red-text {
   color: #c40a0a; }
+
 img {
   width: 100%; }
 
@@ -65,6 +66,7 @@ img {
   margin-top: 25px;
   height: 425px;
   overflow: auto; }
+
 .like {
   background-color: white;
   border: none; }
