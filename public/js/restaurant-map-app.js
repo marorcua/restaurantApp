@@ -1,8 +1,5 @@
 let map
 
-let results
-console.log(results);
-
 function initMap() {
 
   map = new google.maps.Map(
@@ -14,9 +11,9 @@ function initMap() {
 
 function getCurrentUser() {
     axios
-        .get('/api/user')
-        .then(res => getUserDatas(res.data))
-        .catch(err => console.log('Error:', err))
+    .get('/api/user')
+    .then(res => getUserDatas(res.data))
+    .catch(err => console.log('Error:', err))
 }
 
 function getUserDatas(user) {
@@ -43,10 +40,10 @@ function drawIcon(coords, iconUrl) {
     new google.maps.Marker({ position, map, icon, optimized: false })
 
     const myoverlay = new google.maps.OverlayView();
-    myoverlay.draw = function () {
-        this.getPanes().markerLayer.id = 'markerLayer';
-    };
-    myoverlay.setMap(map);
+     myoverlay.draw = function () {
+         this.getPanes().markerLayer.id='markerLayer';
+     };
+     myoverlay.setMap(map);
 }
 
 

@@ -31,7 +31,7 @@ img {
   font-size: 2em; }
 
 #map {
-  height: 93vh;
+  height: 88vh;
   margin: 0; }
 
 #markerLayer img {
@@ -47,7 +47,8 @@ img {
 
 .user-list a {
   color: black;
-  font-size: 1.2em; }
+  font-size: 1.2em;
+  font-weight: 600; }
 
 .individual-user img {
   width: 100%;
