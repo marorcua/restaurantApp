@@ -1,15 +1,16 @@
 const express = require('express')
-const User = require('../models/user.model')
+
 const router = express.Router()
 const { isLoggedIn } = require('./../middlewares')
 
-// Endpoints
-router.get('/', isLoggedIn, (req, res) => {
-    console.log(req.body)
+const User = require('../models/user.model')
+
+// Restaurant map (GET)
+router.get('/map', isLoggedIn, (req, res) => {
 
     User
-        .find(req.session.currentUser)
-        .then(user => res.render('pages/map/index', { user }))
+        .findById(req.session.currentUser)
+        .then(user => res.render('pages/restaurants/restaurant-map', {user}))
         .catch(err => console.log('Error:', err))
 })
 
