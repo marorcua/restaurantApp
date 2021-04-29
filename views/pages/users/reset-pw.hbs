@@ -1,0 +1,16 @@
+<div class="container">
+    <h1>Reset your password {{name}}</h1>
+    <form method="POST" action="/users/password/{{id}}">
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <button type="submit" class="btn btn-dark btn-block">Save password</button>
+    
+        {{#if errorMessage}}
+        <div id="error">
+            <p>{{errorMessage}}</p>
+        </div>
+        {{/if}}
+    </form>
+</div>

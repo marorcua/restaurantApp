@@ -4,7 +4,6 @@ module.exports = {
     isAdmin: user => user && user.role === "ADMIN",
     isCurrentUser: (id, user) => user && user._id === id,
     isNotCurrentUser: (id, user) => user && user._id != id,
-    emailIsValid: email => { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)},
     getAge: dateString => {
     let today = new Date();
     let birthDate = new Date(dateString);
