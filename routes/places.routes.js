@@ -1,89 +1,56 @@
 const express = require('express')
 const router = express.Router()
-const https = require('https')
+
 const axios = require("axios")
 const { RSA_NO_PADDING } = require('constants')
+const User = require('../models/user.model')
+const { findByIdAndDelete } = require('../models/user.model')
+
 // Endpoints
 router.get('/', (req, res) => {
     res.render('pages/places/search')
 })
 
 
-router.post('/info', (req, res) => {
-    const { location } = req.session.currentUser
-
-    const { city, radius, rankBy, desdencingRadio } = req.body.dataInput
-    const map = req.body.map
-    console.log(map);
-
-    let searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${process.env.GOOGLE_API}`
-
-
-    let newUrl = searchUrl.concat(`&query=restaurants+${city}`)
-
-    if (radius !== "") {
-        newUrl = newUrl.concat("&radius=" + radius + "@" + location.lat + "," + location.long)
-        // } else if (rankBy !== "") {
-        //     newUrl = newUrl.concat("&rankby=" + rankBy + "&location=" + location.lat + "," + location.long)
-    }
-    else if (city === "") {
-        newUrl = newUrl.concat("&location=" + location.lat + "," + location.long)
-    }
-
-    console.log(newUrl)
-
-    axios
-        .get(newUrl)
-        .then(response => {
-            const result = response.data.results
-
-            return results = result.map(value => {
-                const rating = value.rating
-                const name = value.name
-                const address = value.formatted_address
-                const price = value.price_level
-                const location = value.geometry.location //{lat,long}
-                const user_ratings = value.user_ratings_total
-                const photoSearch = (value.photos === undefined) ? null : value.photos.map(elm => {
-                    const photoRef = elm.photo_reference
-                    const searchPhoto = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&sensor=false&key=${process.env.GOOGLE_API}`
-                    return searchPhoto
-                })
-                return { rating, name, address, price, location, user_ratings, photoSearch }
-            })
-        })
-        .then(results => {
-
-            return results.sort((a, b) => {
-                let firstItem = a[rankBy]
-                let secondItem = b[rankBy]
-
-                if (typeof firstItem === 'number' || firstItem === undefined) {
-                    if (desdencingRadio === "ascending") {
-                        return firstItem - secondItem
-                    } else {
-                        return secondItem - firstItem
-                    }
-                } else {
-                    if (desdencingRadio === "ascending") {
-                        return firstItem.localeCompare(secondItem)
-                    } else {
-                        return secondItem.localeCompare(firstItem)
-                    }
-                }
-            })
-        })
-        .then(results => {
-            //console.log(results);
-            res.json(results)
-            //return (map) ? res.json(results) : res.render('pages/places/results', { results })
+router.get('/favorites', (req, res) => {
+    const { _id } = req.session.currentUser
+    User
+        .findById(_id)
+        .then(user => {
+            console.log(user.favoriteRestaurants)
+            const restaurants = user.favoriteRestaurants
+            res.render('pages/places/results', { restaurants })
         })
         .catch(err => console.log(err))
 })
 
-router.get('/test', (req, res) => {
-    results = req.body
-    res.render('pages/places/results', { results })
+router.post('/favorites', (req, res) => {
+    const { data } = req.body
+    const { _id } = req.session.currentUser
+    console.log(data);
+    const { location, name, rating, photoSearch, user_ratings, address } = data
+    console.log(location, name, rating)
+
+    User
+        .findByIdAndUpdate(_id,
+            { $push: { favoriteRestaurants: { location, name, rating, photoSearch, user_ratings, address } } },
+            { new: true })
+        .then(user => {
+            console.log(user);
+        })
+        .catch(err => console.log(err))
+})
+
+router.get('/favorites/delete/:id', (req, res) => {
+    const { _id } = req.session.currentUser
+    const { id: restId } = req.params
+    console.log(restId);
+    User
+        .findByIdAndUpdate(_id,
+            { $pull: { favoriteRestaurants: { id: restId } } })
+        .then(response => res.redirect('/places/favorites'))
+        .catch(err => console.log(err))
+
 })
 
 

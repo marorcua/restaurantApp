@@ -12,9 +12,8 @@ document.getElementById("search").addEventListener("click", (event) => {
 
 
     axios
-        .post('/places/info', { dataInput, map })
+        .post('/api/places', { dataInput, map })
         .then(response => {
-            console.log(response.data);
             let restaurants = response.data
             if (map) {
                 (document.querySelector("#displayList")) ? document.querySelector("#displayList").parentNode.removeChild(document.querySelector("#displayList")) : null
@@ -23,7 +22,6 @@ document.getElementById("search").addEventListener("click", (event) => {
             }
             else {
                 createList(restaurants)
-                console.log(restaurants);
             }
         })
         .catch(err => console.log(err))
@@ -51,27 +49,35 @@ function createList(array) {
     </div>`
 
         let referenceNode = document.querySelector("#radioDom")
-        console.log(referenceNode);
         newElement.innerHTML += block
         referenceNode.parentNode.insertBefore(newElement, referenceNode.nextSibling)
-
     })
+    heartButton(array)
 }
 
 const whiteHeart = '\u2661';
 const blackHeart = '\u2665';
-const button = document.querySelectorAll('.like');
-console.log(button);
-button.forEach(elm => {
-    elm.addEventListener('click', toggle);
+function heartButton(array) {
+    const button = document.querySelectorAll('.like');
 
-    function toggle() {
-        const like = elm.textContent;
-        if (like == whiteHeart) {
-            elm.textContent = blackHeart;
-        } else {
-            elm.textContent = whiteHeart;
-        }
+    button.forEach((elm, index) => {
+        console.log(elm);
+        elm.addEventListener('click', event => {
+            event.preventDefault()
+            toggle(elm)
+            let data = array[index]
+            axios.post('/places/favorites', { data })
+        });
+
+    })
+
+}
+
+function toggle(elm) {
+    const like = elm.textContent;
+    if (like == whiteHeart) {
+        elm.textContent = blackHeart;
+    } else {
+        elm.textContent = whiteHeart;
     }
-})
-
+}

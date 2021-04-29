@@ -14,8 +14,15 @@ const userSchema = new Schema({
         type: String,
     }],
     favoriteRestaurants: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Restaurant',
+        name: { type: String },
+        rating: { type: Number },
+        location: {
+            lat: { type: Number },
+            lng: { type: Number }
+        },
+        photoSearch: { type: Array },
+        user_ratings: { type: Number },
+        address: { type: String }
     }],
     restaurantAppointments: [{
         type: Schema.Types.ObjectId,
