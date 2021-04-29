@@ -17,7 +17,7 @@ document.getElementById("search").addEventListener("click", (event) => {
             let restaurants = response.data
             if (map) {
                 (document.querySelector("#displayList")) ? document.querySelector("#displayList").parentNode.removeChild(document.querySelector("#displayList")) : null
-                document.getElementById("map").style.display = "block"
+                document.getElementById("restaurant-map").style.display = "block"
                 placesInMap(restaurants)
             }
             else {
@@ -29,8 +29,9 @@ document.getElementById("search").addEventListener("click", (event) => {
 
 
 function createList(array) {
-    console.log(array);
-    document.getElementById("map").style.display = "none"
+    (document.querySelector("#displayList")) ? document.querySelector("#displayList").parentNode.removeChild(document.querySelector("#displayList")) : null
+
+    document.getElementById("restaurant-map").style.display = "none"
     let newElement = document.createElement("div")
     newElement.id = "displayList"
     newElement.className = "row justify-content-center"
@@ -61,7 +62,6 @@ function heartButton(array) {
     const button = document.querySelectorAll('.like');
 
     button.forEach((elm, index) => {
-        console.log(elm);
         elm.addEventListener('click', event => {
             event.preventDefault()
             toggle(elm)

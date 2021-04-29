@@ -83,10 +83,17 @@ router.post('/places', (req, res) => {
             })
         })
         .then(results => {
-            if (rankBy === "Distance" || rankBy === "Select") {
+            console.log(rankBy)
+            if (rankBy === "distance" || rankBy === "select") {
                 return results
             } else {
-                return results.sort((a, b) => {
+                console.log(results)
+                results = results.filter(elm => {
+                    console.log(elm);
+                    elm.rankBy !== undefined
+                })
+                console.log(results)
+                results.sort((a, b) => {
                     let firstItem = a[rankBy]
                     let secondItem = b[rankBy]
 
@@ -96,6 +103,8 @@ router.post('/places', (req, res) => {
                         return (desdencingRadio === "ascending") ? firstItem.localeCompare(secondItem) : secondItem.localeCompare(firstItem)
                     }
                 })
+
+                return results
             }
         })
         .then(results => res.json(results))

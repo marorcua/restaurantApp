@@ -1,9 +1,12 @@
 <div class="container">
-    {{#each restaurants}}
+    {{#each appointments}}
     <div class="row justify-content-center">
         <div class="col-md-4">
-            Name: {{lookup ../user @key}}
+            {{#user}}
+            <a href="/users/{{id}}">Name: {{name}}</a>
+            {{/user}}
         </div>
+        {{#restaurants}}
         <div class="col-md-4">
             <h3>Name: {{name}}</h3>
             <p>Price: {{price}}</p>
@@ -11,9 +14,9 @@
         </div>
         <div class="col-md-4">
             <img src="{{photoSearch}}" alt="restaurant-photo">
-            <a href="/places/appointment/delete/{{lookup ../appointmentId @key}}">Delete appointment</a>
+            {{/restaurants}}
+            <a href="/places/appointment/delete/{{id}}">Delete appointment</a>
         </div>
-
     </div>
     <hr>
     {{/each}}
