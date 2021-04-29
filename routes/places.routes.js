@@ -5,8 +5,9 @@ const axios = require("axios")
 const { RSA_NO_PADDING } = require('constants')
 const User = require('../models/user.model')
 const Restaurant = require('../models/restaurant.model')
-const { isLoggedIn } = require('./../middlewares')
 const Appointment = require('../models/appointment.model')
+
+const { isLoggedIn } = require('./../middlewares')
 
 // Endpoints
 router.get('/', (req, res) => {
@@ -27,7 +28,7 @@ router.get('/favorites', isLoggedIn, (req, res) => {
         .catch(err => console.log(err))
 })
 
-router.post('/favorites', (req, res) => {
+router.post('/favorites', isLoggedIn, (req, res) => {
     const { data } = req.body
     const { _id } = req.session.currentUser
     console.log(req.session.currentUser);
@@ -38,7 +39,6 @@ router.post('/favorites', (req, res) => {
         .findOne({ name })
         .then(restaurant => {
             if (restaurant) {
-                //res.render('pages/auth/signup', { errorMessage: 'Email already registered' })
                 return restaurant
             }
             return Restaurant
@@ -70,36 +70,34 @@ router.post('/favorites', (req, res) => {
         .catch(err => console.log(err))
 })
 
-router.get('/join/:id', (req, res) => {
+router.get('/join/:id', isLoggedIn, (req, res) => {
     const { _id } = req.session.currentUser
     const { id: restId } = req.params
 
     Appointment
         .create({ restaurants: restId, user: _id })
         .then(() => {
-            res.redirect('/join/')
+            res.redirect('/places/join/')
         })
         .catch(err => console.log(err))
 })
 
-router.get('/join', (req, res) => {
-    const { _id } = req.session.currentUser
+router.get('/join', isLoggedIn, (req, res) => {
+
     Appointment
-        .find({ user: _id })
+        .find()
         .populate('restaurants')
         .populate('user')
         .then(appointments => {
-            console.log(appointments);
             let restaurants = appointments.map(elm => elm.restaurants[0])
             let user = appointments.map(elm => elm.user.name)
-            console.log(user)
             let appointmentId = appointments.map(elm => elm.id)
             res.render('pages/places/appointments', { restaurants, user, appointmentId })
         })
         .catch(err => console.log(err))
 })
 
-router.get('/favorites/delete/:id', (req, res) => {
+router.get('/favorites/delete/:id', isLoggedIn, (req, res) => {
     const { _id } = req.session.currentUser
     const { id: restId } = req.params
     console.log(restId);
@@ -115,7 +113,7 @@ router.get('/favorites/delete/:id', (req, res) => {
 
 })
 
-router.get('/appointment/delete/:id', (req, res) => {
+router.get('/appointment/delete/:id', isLoggedIn, (req, res) => {
     const { _id } = req.session.currentUser
     const { id: appointmentId } = req.params
 

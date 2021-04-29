@@ -1,18 +1,20 @@
-<div class="container">
+<div class="container body-container restaurant-list">
     {{#each restaurants}}
     <div class="row justify-content-center">
-        <div class="col-md-4">
-            <h3>Name: {{name}}</h3>
+        <div class="col-md-5">
+            <h3>{{name}}</h3>
             <p>Price: {{price}}</p>
             <p>Rating: {{rating}}</p>
             <p>User ratings: {{user_ratings}}</p>
             <p>{{address}}</p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <img src="{{photoSearch}}" alt="restaurant-photo">
-            <a href="/places/favorites/delete/{{id}}">Delete restaurant</a>
+            <a href="/places/favorites/delete/{{id}}">Remove from favorites</a>
         </div>
-        <a href="/places/join/{{id}}">Join in</a>
+        <div class="col-md-2">
+            <a class="btn-red large-btn" href="/places/join/{{id}}">I'm in!</a>
+        </div>
     </div>
     <hr>
     {{/each}}
