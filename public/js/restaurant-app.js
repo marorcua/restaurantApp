@@ -1,39 +1,61 @@
 
 document.getElementById("search").addEventListener("click", (event) => {
+    const city = document.querySelector('#city').value
+    const radius = document.querySelector('#radius').value
+    const rankBy = document.querySelector('#rankBy').value
+    const desdencingRadio = document.querySelector('#descending').checked
+    const map = document.querySelector('#selectMap').checked
+
     event.preventDefault()
 
-    const inputs = document.querySelector('.operation.delete input')
+    dataInput = { city, radius, rankBy, desdencingRadio }
+
 
     axios
-        .get('/places/info')
-        .then(response => console.log(response))
+        .post('/places/info', { dataInput, map })
+        .then(response => {
+            console.log(response.data);
+            let restaurants = response.data
+            if (map) {
+                (document.querySelector("#displayList")) ? document.querySelector("#displayList").parentNode.removeChild(document.querySelector("#displayList")) : null
+                document.getElementById("map").style.display = "block"
+                placesInMap(restaurants)
+            }
+            else {
+                createList(restaurants)
+                console.log(restaurants);
+            }
+        })
         .catch(err => console.log(err))
 })
 
 
-getLocation()
+function createList(array) {
+    console.log(array);
+    document.getElementById("map").style.display = "none"
+    let newElement = document.createElement("div")
+    newElement.id = "displayList"
+    newElement.className = "row justify-content-center"
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(getLocationInfo);
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
-}
+    array.forEach(elm => {
+        let block = `<div class="col-md-4">
+        <h3>Name: ${elm.name}</h3>
+        <button class="like">&#9825</button>
+        <p>Price: ${elm.price}</p>
+        <p>Rating: ${elm.rating}</p>
+        <p>User ratings: ${elm.user_ratings}</p>
+        <p>${elm.address}</p>
+    </div>
+    <div class="col-md-6">
+        <img src="${elm.photoSearch}" alt="restaurant-photo">
+    </div>`
 
-function getLocationInfo(position) {
-    console.log(position.coords.latitude, position.coords.longitude)
+        let referenceNode = document.querySelector("#radioDom")
+        console.log(referenceNode);
+        newElement.innerHTML += block
+        referenceNode.parentNode.insertBefore(newElement, referenceNode.nextSibling)
 
-    const location = { lat: position.coords.latitude, long: position.coords.longitude }
-
-    // let location = { lat, long }
-    console.log(location)
-    axios
-        .put('/api/user/', { location })
-        .then(user => {
-            console.log(user)
-        })
-        .catch(err => console.log(err))
+    })
 }
 
 const whiteHeart = '\u2661';

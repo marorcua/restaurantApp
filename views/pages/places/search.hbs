@@ -46,23 +46,27 @@
                 <button id="search" type="submit" class="btn btn-primary">Search</button>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+        <div class="row justify-content-center" id="radioDom">
+            <div class="col-md-4">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="chooseView" id="list" value="list" checked>
-                    <label class="form-check-label" for="list">
+                    <input class="form-check-input" type="radio" name="chooseView" id="selectlist" value="selectlist">
+                    <label class="form-check-label" for="selectlist">
                         List
                     </label>
                 </div>
+            </div>
+            <div class="col-md-4">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="chooseView" id="ascending" value="ascending">
-                    <label class="form-check-label" for="ascending">
-                        Ascending
+                    <input class="form-check-input" type="radio" name="chooseView" id="selectMap" value="selectMap"
+                        checked>
+                    <label class="form-check-label" for="selectMap">
+                        Map
                     </label>
                 </div>
             </div>
         </div>
     </form>
+
     {{#each results}}
     <div class="row justify-content-center">
         <div class="col-md-4">
@@ -81,6 +85,10 @@
     <hr>
     {{/each}}
 </div>
+<figure id="map"></figure>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/mapstyles.js"></script>
+<script src="/js/restaurant-map-app.js"></script>
 <script src="/js/restaurant-app.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{googleApi}}&callback=initMap"></script>

@@ -12,9 +12,9 @@ router.get('/', (req, res) => {
 router.post('/info', (req, res) => {
     const { location } = req.session.currentUser
 
-    console.log(req.query);
-
-    const { city, radius, rankBy, desdencingRadio } = req.body
+    const { city, radius, rankBy, desdencingRadio } = req.body.dataInput
+    const map = req.body.map
+    console.log(map);
 
     let searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${process.env.GOOGLE_API}`
 
@@ -57,8 +57,7 @@ router.post('/info', (req, res) => {
             return results.sort((a, b) => {
                 let firstItem = a[rankBy]
                 let secondItem = b[rankBy]
-                console.log(typeof a.price);
-                //return b[rankBy] - a[rankBy]
+
                 if (typeof firstItem === 'number' || firstItem === undefined) {
                     if (desdencingRadio === "ascending") {
                         return firstItem - secondItem
@@ -77,7 +76,14 @@ router.post('/info', (req, res) => {
         .then(results => {
             //console.log(results);
             res.json(results)
+            //return (map) ? res.json(results) : res.render('pages/places/results', { results })
         })
+        .catch(err => console.log(err))
+})
+
+router.get('/test', (req, res) => {
+    results = req.body
+    res.render('pages/places/results', { results })
 })
 
 
