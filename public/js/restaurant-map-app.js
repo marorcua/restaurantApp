@@ -51,7 +51,7 @@ function placesInMap(places) {
 function initMap() {
 
     map = new google.maps.Map(
-        document.querySelector('#map'),
+        document.querySelector('#restaurant-map '),
         { zoom: 16, center: { lat: 40.4183915, lng: -3.7086309 }, styles: mapStyles.restaurant }
     )
     getUserPosition()

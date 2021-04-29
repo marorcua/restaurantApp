@@ -15,25 +15,22 @@
 
   <main>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
+      <a class="nav-link" href="/"><img src="../img/food-friends-logo-color.jpg" alt="Food Friends Logo"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 
         <span class="navbar-toggler-icon"></span>
-      </button>logo
+      </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="/restaurants/map">Discover new restaurants</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/users/list">New users</a>
+            <a class="nav-link" href="/users/map">Meet people</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/users/map">Meet people</a>
+            <a class="nav-link" href="/users/list">New users</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/users/">My space</a>
@@ -42,22 +39,22 @@
             <a class="nav-link" href="/auth/">Log In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/auth/sign-up">Sign Up</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/auth/log-out">Log out</a>
+            <a class="nav-link signup" href="/auth/sign-up">Sign Up</a>
           </li>
         </ul>
       </div>
     </nav>
     {{{body}}}
     <nav class="app-nav-bar">
-      <div class="row">
-        <div class="col"><a href="/restaurants/map"><i class="far fa-map"></i></a></div>
-        <div class="col"><a href="/chat"><i class="far fa-comment-dots"></i></a></div>
-        <div class="col"><a href="/users/favorites"><i class="far fa-star"></i></a></div>
-        <div class="col"><a href="/users/appointments"><i class="far fa-calendar-check"></i></a></div>
-        <div class="col"><a href="/users/"><i class="far fa-user"></i></a></div>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+            <a href="/restaurants/map"><i class="fas fa-utensils"></i></a>
+            <a href="/users/map"><i class="fas fa-users"></i></a>
+            <a href="/chat"><i class="far fa-comment-dots"></i></a>
+            <a href="/users/favorites"><i class="far fa-star"></i></a>
+            <a href="/users/appointments"><i class="far fa-calendar-check"></i></a>
+            <a href="/users/"><i class="far fa-user"></i></a>
+        </div>
       </div>
     </nav>
   </main>

@@ -45,9 +45,7 @@ function placesInMap(places) {
     var marker = new google.maps.Marker({ position, label, map, icon})
     
     const contentString =
-    `<b>${elm.name}</b><br>` +
-    `${elm.description}<br>` +
-    `<a href="/users/${elm._id}">Visit ${elm.name}'s profile</a>`
+    `<div class="profiles-box"><h2>${elm.name}</h2>${elm.description}<br><br><a href="/users/${elm._id}">Visit ${elm.name}'s profile</a></div>`
     
     const infowindow = new google.maps.InfoWindow({
     content: contentString,
