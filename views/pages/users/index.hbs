@@ -1,14 +1,29 @@
-<div class="container">
-
-    <h1>Welcome {{user.name}}!</h1>
-
-    <a href="/map">Discover new restaurants</a><br>
-    <a href="/users/list">New users</a><br>
-    <a href="/users/map">Meet new people</a>
-    <hr>
-    <a href="/users/{{user.id}}">My profile</a><br>
-    <a href="/restaurants/favorites">My favorite restaurants</a><br>
-    <a href="/restaurants/appointments">My appointments</a><br>
-    <a href="/chat">My chats</a>
-
+<div class="container body-container">
+    <h1>Welcome to your personal space {{user.name}}!</h1>
+    <div class="row grid">
+        <div class="col-md-4 restaurant-grid">
+            <a href="/restaurants/map">The best restaurants in town!</a>
+        </div>
+        <div class="col-md-4 people-grid">
+            <a href="/users/map">Meet new people around you</a>
+        </div>
+        <div class="col-md-4 users-grid">
+            <a href="/users/list">Last registered users</a>
+        </div> 
+    </div>
+    <div class="row grid">
+        <div class="col-md-3 profile-grid">
+            <a href="/users/{{user.id}}">My profile</a>
+        </div>
+        <div class="col-md-3 favorite-grid">
+            <a href="/restaurants/favorites">My favorite restaurants</a>
+        </div> 
+        <div class="col-md-3 appointments-grid">
+            <a href="/restaurants/reservations">My reservations</a>
+        </div> 
+        <div class="col-md-3 chats-grid">
+            <a href="/chat">My chats</a>
+        </div> 
+        </div>
+    </div>
 </div>

@@ -1,25 +1,29 @@
-<div class="container">
-    <h1>Logo</h1>
+<div class="container body-container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Log in to your profile</h1>
 
-    <form action="/auth/" method="POST">
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email">
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password">
-        </div>
+            <form action="/auth/" method="POST">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password">
+                </div>
 
-        <button type="submit" class="btn btn-dark btn-block">Log in</button>
-        {{#if errorMessage}}
-        <div id="error">
-            <p>{{errorMessage}}</p>
-        </div>
-        {{/if}}
-    </form>
+                <button type="submit" class="btn btn-red btn-block">Log in</button>
+                {{#if errorMessage}}
+                <div id="error">
+                    <p>{{errorMessage}}</p>
+                </div>
+                {{/if}}
+            </form>
 
-    <a href="/auth/sign-up">Not an account yet? Create a profile</a>
+            <a href="/auth/sign-up">Not an account yet? Create a profile</a>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
