@@ -1,10 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
+const { isLoggedAPI } = require('./../middlewares')
+
 const User = require('./../models/user.model')
 
 // http://localhost:3000/api/user
-router.get('/user', (req, res) => {
+router.get('/user', isLoggedAPI, (req, res) => {
 
     User
         .findById(req.session.currentUser._id)
@@ -26,7 +28,7 @@ router.put('/user', (req, res) => {
 })
 
 // http://localhost:3000/api/users
-router.get('/users', (req, res) => {
+router.get('/users', isLoggedAPI, (req, res) => {
 
     User
         .find()

@@ -3,6 +3,8 @@ const router = express.Router()
 const { isAdmin, isCurrentUser, isNotCurrentUser, getAge } = require('./../utils')
 const { isLoggedIn } = require('./../middlewares')
 const { CDNupload } = require('../config/file-upload.config')
+const bcrypt = require("bcrypt")
+const bcryptSalt = 10
 
 const User = require('../models/user.model')
 
@@ -28,8 +30,9 @@ router.get('/map', isLoggedIn, (req, res) => {
 router.get('/list', isLoggedIn, (req, res) => {
 
     User
-        .find()
+        .find({}, { name: 1, userImage: 1 })
         .sort({ createdAt: -1 })
+        .limit(20)
         .then(users => {
             res.render('pages/users/users-list', { users })
         })
@@ -43,7 +46,7 @@ router.get('/:id', isLoggedIn, (req, res) => {
     User
         .findById(req.params.id)
         .then(user => {
-            let userAge = getAge(user.birthDay)
+            const userAge = getAge(user.birthDay)
             res.render('pages/users/profile', { user, userAge, isCurrentUser: isCurrentUser(req.params.id, req.session.currentUser), isNotCurrentUser: isNotCurrentUser(req.params.id, req.session.currentUser), isAdmin: isAdmin(req.session.currentUser) })
         })
         .catch(err => console.log(err))
@@ -85,6 +88,33 @@ router.post('/edit/:id', CDNupload.single('userImage'), isLoggedIn, (req, res) =
         .findByIdAndUpdate(req.params.id, { email, name, description, birthDay, favoriteCuisines, userImage })
         .then(user => res.redirect(`/users/${user._id}`))
         .catch(err => console.log(err))
+})
+
+// Reset password (GET)
+router.get('/password/:id', isLoggedIn, (req, res) => {
+
+    User
+        .findById(req.params.id)
+        .then(user => res.render('pages/users/reset-pw', user))
+        .catch(err => console.log(err))
+})
+
+// Reset password (POST)
+router.post('/password/:id', isLoggedIn, (req, res) => {
+    const { password }  = req.body
+
+    if (password.length === 0) {
+        res.render('pages/auth/signup', { errorMessage: 'Please write a password' })
+        return
+    }
+
+    const salt = bcrypt.genSaltSync(bcryptSalt)
+    const hashPass = bcrypt.hashSync(password, salt)
+
+    User
+        .findOneAndUpdate(req.params.id, {password: hashPass})
+        .then(() => res.redirect('/users'))
+        .catch(err => console.log('error', err))
 })
 
 // Delete user (GET)

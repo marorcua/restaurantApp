@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
-const MONGODB_URI = process.env.MONGODB_URI || `mongodb://localhost/express-boilerplate`
+const MONGODB_URI = process.env.DB_REMOTE || `mongodb://localhost/express-boilerplate`
 
 mongoose
-    .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .then(details => {
         const { name, client } = details.connections[0]
         console.log(`Connected to database "${name}" (URL: ${client.s.url})`)
