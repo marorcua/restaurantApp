@@ -4,7 +4,9 @@ const router = express.Router()
 const axios = require("axios")
 const { RSA_NO_PADDING } = require('constants')
 const User = require('../models/user.model')
-const { findByIdAndDelete } = require('../models/user.model')
+const Restaurant = require('../models/restaurant.model')
+const { isLoggedIn } = require('./../middlewares')
+const Appointment = require('../models/appointment.model')
 
 // Endpoints
 router.get('/', (req, res) => {
@@ -12,12 +14,13 @@ router.get('/', (req, res) => {
 })
 
 
-router.get('/favorites', (req, res) => {
+router.get('/favorites', isLoggedIn, (req, res) => {
     const { _id } = req.session.currentUser
+    console.log(req.session.currentUser)
     User
         .findById(_id)
+        .populate('favoriteRestaurants')
         .then(user => {
-            console.log(user.favoriteRestaurants)
             const restaurants = user.favoriteRestaurants
             res.render('pages/places/results', { restaurants })
         })
@@ -27,16 +30,71 @@ router.get('/favorites', (req, res) => {
 router.post('/favorites', (req, res) => {
     const { data } = req.body
     const { _id } = req.session.currentUser
-    console.log(data);
+    console.log(req.session.currentUser);
     const { location, name, rating, photoSearch, user_ratings, address } = data
     console.log(location, name, rating)
 
-    User
-        .findByIdAndUpdate(_id,
-            { $push: { favoriteRestaurants: { location, name, rating, photoSearch, user_ratings, address } } },
-            { new: true })
+    Restaurant
+        .findOne({ name })
+        .then(restaurant => {
+            if (restaurant) {
+                //res.render('pages/auth/signup', { errorMessage: 'Email already registered' })
+                return restaurant
+            }
+            return Restaurant
+                .create({ location, name, rating, photoSearch, user_ratings, address })
+                .then(response => {
+                    return response
+                }).catch(err => console.log(err))
+
+        })
+        .then(response => {
+            const { _id } = req.session.currentUser
+            console.log('the rseponse is ', response, _id);
+            let restaurantId = response._id
+            return User
+                .find({ $and: [{ id: req.session.currentUser._id }, { favoriteRestaurants: restaurantId }] })
+                .then(user => {
+                    return (user.length > 0) ? null : User.findByIdAndUpdate(req.session.currentUser._id, { $push: { favoriteRestaurants: restaurantId } })
+                })
+                .then(response => {
+                    return console.log(response)
+                })
+                .catch(err => console.log(err))
+        })
         .then(user => {
-            console.log(user);
+            console.log(user)
+
+        })
+
+        .catch(err => console.log(err))
+})
+
+router.get('/join/:id', (req, res) => {
+    const { _id } = req.session.currentUser
+    const { id: restId } = req.params
+
+    Appointment
+        .create({ restaurants: restId, user: _id })
+        .then(() => {
+            res.redirect('/join/')
+        })
+        .catch(err => console.log(err))
+})
+
+router.get('/join', (req, res) => {
+    const { _id } = req.session.currentUser
+    Appointment
+        .find({ user: _id })
+        .populate('restaurants')
+        .populate('user')
+        .then(appointments => {
+            console.log(appointments);
+            let restaurants = appointments.map(elm => elm.restaurants[0])
+            let user = appointments.map(elm => elm.user.name)
+            console.log(user)
+            let appointmentId = appointments.map(elm => elm.id)
+            res.render('pages/places/appointments', { restaurants, user, appointmentId })
         })
         .catch(err => console.log(err))
 })
@@ -45,10 +103,28 @@ router.get('/favorites/delete/:id', (req, res) => {
     const { _id } = req.session.currentUser
     const { id: restId } = req.params
     console.log(restId);
+
     User
         .findByIdAndUpdate(_id,
-            { $pull: { favoriteRestaurants: { id: restId } } })
-        .then(response => res.redirect('/places/favorites'))
+            { $pull: { 'favoriteRestaurants': restId } })
+        .then(response => {
+            console.log(response)
+            res.redirect('/places/favorites')
+        })
+        .catch(err => console.log(err))
+
+})
+
+router.get('/appointment/delete/:id', (req, res) => {
+    const { _id } = req.session.currentUser
+    const { id: appointmentId } = req.params
+
+    Appointment
+        .findByIdAndDelete(appointmentId)
+        .then(response => {
+            console.log(response)
+            res.redirect('/places/join')
+        })
         .catch(err => console.log(err))
 
 })

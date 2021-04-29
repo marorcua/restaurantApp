@@ -30,7 +30,8 @@ function placesInMap(places) {
         })
         const contentString = `<h3>Name: ${title}</h3>
           <h4><b>Rating: ${elm.rating}</b></h4> 
-          <p>Location: ${elm.address}</p>`
+          <p>Location: ${elm.address}</p> 
+          <a href="/places/join/">Join in</a>`
 
         const infowindow = new google.maps.InfoWindow({
             content: contentString
@@ -53,6 +54,7 @@ function initMap() {
         document.querySelector('#map'),
         { zoom: 16, center: { lat: 40.4183915, lng: -3.7086309 }, styles: mapStyles.restaurant }
     )
+    getUserPosition()
 }
 
 function getUserPosition() {

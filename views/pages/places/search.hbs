@@ -67,28 +67,12 @@
         </div>
     </form>
 
-    {{#each results}}
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <h3>Name: {{name}}</h3>
-            <button class="like">&#9825</button>
-            <p>Price: {{price}}</p>
-            <p>Rating: {{rating}}</p>
-            <p>User ratings: {{user_ratings}}</p>
-            <p>{{address}}</p>
-        </div>
-        <div class="col-md-6">
-            <img src="{{photoSearch}}" alt="restaurant-photo">
-        </div>
-
-    </div>
-    <hr>
-    {{/each}}
 </div>
 <figure id="map"></figure>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/js/mapstyles.js"></script>
+<script src="/js/location-app.js"></script>
 <script src="/js/restaurant-map-app.js"></script>
 <script src="/js/restaurant-app.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key={{googleApi}}&callback=initMap"></script>

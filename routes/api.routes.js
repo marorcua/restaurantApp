@@ -39,6 +39,7 @@ router.get('/users', isLoggedAPI, (req, res) => {
 
 router.post('/places', (req, res) => {
     const { location } = req.session.currentUser
+    console.log(req.session.currentUser);
 
     const { city, radius, rankBy, desdencingRadio } = req.body.dataInput
     const map = req.body.map
@@ -51,8 +52,8 @@ router.post('/places', (req, res) => {
 
     if (radius !== "") {
         newUrl = newUrl.concat("&radius=" + radius + "@" + location.lat + "," + location.long)
-        // } else if (rankBy !== "") {
-        //     newUrl = newUrl.concat("&rankby=" + rankBy + "&location=" + location.lat + "," + location.long)
+    } else if (rankBy === "Distance" || rankBy === "Select") {
+        newUrl = newUrl.concat("&rankby=" + distance + "&location=" + location.lat + "," + location.long)
     }
     else if (city === "") {
         newUrl = newUrl.concat("&location=" + location.lat + "," + location.long)
@@ -64,6 +65,7 @@ router.post('/places', (req, res) => {
         .get(newUrl)
         .then(response => {
             const result = response.data.results
+            //console.log(result)
 
             return results = result.map(value => {
                 const rating = value.rating
@@ -81,25 +83,20 @@ router.post('/places', (req, res) => {
             })
         })
         .then(results => {
+            if (rankBy === "Distance" || rankBy === "Select") {
+                return results
+            } else {
+                return results.sort((a, b) => {
+                    let firstItem = a[rankBy]
+                    let secondItem = b[rankBy]
 
-            return results.sort((a, b) => {
-                let firstItem = a[rankBy]
-                let secondItem = b[rankBy]
-
-                if (typeof firstItem === 'number' || firstItem === undefined) {
-                    if (desdencingRadio === "ascending") {
-                        return firstItem - secondItem
+                    if (typeof firstItem === 'number' || firstItem === undefined) {
+                        return (desdencingRadio === "ascending") ? firstItem - secondItem : secondItem - firstItem
                     } else {
-                        return secondItem - firstItem
+                        return (desdencingRadio === "ascending") ? firstItem.localeCompare(secondItem) : secondItem.localeCompare(firstItem)
                     }
-                } else {
-                    if (desdencingRadio === "ascending") {
-                        return firstItem.localeCompare(secondItem)
-                    } else {
-                        return secondItem.localeCompare(firstItem)
-                    }
-                }
-            })
+                })
+            }
         })
         .then(results => res.json(results))
         .catch(err => console.log(err))

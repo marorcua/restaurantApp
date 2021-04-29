@@ -6,8 +6,8 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Please write your email'],
         validate: {
-            validator: function(email) {
-            return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+            validator: function (email) {
+                return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
             },
             message: props => `${props.value} is not a valid email`
         }
@@ -36,15 +36,8 @@ const userSchema = new Schema({
         type: String,
     }],
     favoriteRestaurants: [{
-        name: { type: String },
-        rating: { type: Number },
-        location: {
-            lat: { type: Number },
-            lng: { type: Number }
-        },
-        photoSearch: { type: Array },
-        user_ratings: { type: Number },
-        address: { type: String }
+        type: Schema.Types.ObjectId,
+        ref: 'Restaurant',
     }],
     restaurantAppointments: [{
         type: Schema.Types.ObjectId,
