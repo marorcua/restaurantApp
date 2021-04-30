@@ -10,7 +10,7 @@ const Appointment = require('../models/appointment.model')
 const { isLoggedIn } = require('./../middlewares')
 
 // Endpoints
-router.get('/', (req, res) => {
+router.get('/', isLoggedIn, (req, res) => {
     res.render('pages/places/search')
 })
 
@@ -83,16 +83,16 @@ router.get('/join/:id', isLoggedIn, (req, res) => {
 })
 
 router.get('/join', isLoggedIn, (req, res) => {
-
+    const { _id } = req.session.currentUser
     Appointment
         .find()
         .populate('restaurants')
         .populate('user')
         .then(appointments => {
             let restaurants = appointments.map(elm => elm.restaurants[0])
-            let user = appointments.map(elm => elm.user.name)
+            let user = appointments.map(elm => elm.user)
             let appointmentId = appointments.map(elm => elm.id)
-            res.render('pages/places/appointments', { restaurants, user, appointmentId })
+            res.render('pages/places/appointments', { appointments })
         })
         .catch(err => console.log(err))
 })
