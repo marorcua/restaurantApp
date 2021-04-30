@@ -6,8 +6,9 @@ const axios = require("axios")
 const { RSA_NO_PADDING } = require('constants')
 const User = require('../models/user.model')
 const Restaurant = require('../models/restaurant.model')
-const { isLoggedIn } = require('./../middlewares')
 const Appointment = require('../models/appointment.model')
+
+const { isLoggedIn } = require('./../middlewares')
 
 // Endpoints
 router.get('/', isLoggedIn, (req, res) => {
@@ -39,7 +40,6 @@ router.post('/favorites', isLoggedIn, (req, res) => {
         .findOne({ name })
         .then(restaurant => {
             if (restaurant) {
-                //res.render('pages/auth/signup', { errorMessage: 'Email already registered' })
                 return restaurant
             }
             return Restaurant
@@ -80,7 +80,6 @@ router.get('/join', isLoggedIn, (req, res) => {
         .populate('restaurants')
         .populate('user')
         .then(appointments => {
-            console.log(appointments);
             let restaurants = appointments.map(elm => elm.restaurants[0])
             let user = appointments.map(elm => elm.user)
             let appointmentId = appointments.map(elm => elm.id)

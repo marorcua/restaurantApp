@@ -1,4 +1,3 @@
-
 document.getElementById("search").addEventListener("click", (event) => {
     const city = document.querySelector('#city').value
     const radius = document.querySelector('#radius').value
@@ -37,17 +36,17 @@ function createList(array) {
     newElement.className = "row justify-content-center"
 
     array.forEach(elm => {
-        let block = `<div class="col-md-4">
-        <h3>Name: ${elm.name}</h3>
+        let block = `<div class="col-md-6 restaurant-list">
+        <h3>${elm.name}</h3>
         <button class="like">&#9825</button>
-        <p>Price: ${elm.price}</p>
-        <p>Rating: ${elm.rating}</p>
-        <p>User ratings: ${elm.user_ratings}</p>
+        <p><b>Price:</b> ${elm.price}</p>
+        <p><b>Rating:</b> ${elm.rating}</p>
+        <p><b>User ratings:</b> ${elm.user_ratings}</p>
         <p>${elm.address}</p>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 restaurant-list">
         <img src="${elm.photoSearch}" alt="restaurant-photo">
-    </div>`
+    </div><hr>`
 
         let referenceNode = document.querySelector("#radioDom")
         newElement.innerHTML += block

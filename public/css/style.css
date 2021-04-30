@@ -137,6 +137,15 @@ nav img {
   -o-background-size: cover;
   background-size: cover; }
 
+.search-bar i {
+  font-size: 1.7em;
+  color: white; }
+
+.view-map-search {
+  background-color: #4b9a7b;
+  text-align: center;
+  padding: 7px 0; }
+
 #map {
   height: 83vh;
   margin: 0; }
@@ -162,6 +171,22 @@ nav img {
   display: block;
   width: 200px;
   margin: auto; }
+
+.restaurant-list {
+  padding-bottom: 50px; }
+
+.restaurant-list h2 {
+  font-size: 1.2em; }
+
+.restaurant-list img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover; }
+
+.restaurant-list button {
+  padding-bottom: 10px;
+  width: 50px;
+  height: auto; }
 
 .user-list img {
   width: 50px;
@@ -239,6 +264,12 @@ nav img {
   position: absolute;
   right: 0;
   padding: 5px 10px; }
+
+.large-btn {
+  font-size: 1.2em;
+  position: absolute;
+  right: 0;
+  padding: 8px 15px; }
 
 @media only screen and (min-width: 990px) {
   .signup {

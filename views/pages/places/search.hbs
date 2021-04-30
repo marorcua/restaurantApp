@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container search-bar">
     <form>
         <div class="row justify-content-around align-items-center text-center">
             <div class="col-sm-3">
@@ -9,7 +9,7 @@
             </div>
             <div class="col-sm-3">
                 <div class="form-group">
-                    <label for="radius">Radius</label>
+                    <label for="radius">Radius (meters)</label>
                     <input type="text" class="form-control" id="radius" placeholder="Radius (m)" name='radius'>
                 </div>
             </div>
@@ -43,24 +43,24 @@
                 </div>
             </div>
             <div class="col-md-1">
-                <button id="search" type="submit" class="btn btn-primary">Search</button>
+                <button id="search" type="submit" class="btn btn-red">Search</button>
             </div>
         </div>
-        <div class="row justify-content-center" id="radioDom">
-            <div class="col-md-4">
+        <div class="row justify-content-center view-map-search" id="radioDom">
+            <div class="col-md-6">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="chooseView" id="selectlist" value="selectlist">
                     <label class="form-check-label" for="selectlist">
-                        List
+                        <i class="fas fa-th-list"></i>
                     </label>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="chooseView" id="selectMap" value="selectMap"
                         checked>
                     <label class="form-check-label" for="selectMap">
-                        Map
+                        <i class="fas fa-map-marked-alt"></i>
                     </label>
                 </div>
             </div>
