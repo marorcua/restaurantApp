@@ -1,83 +1,145 @@
 const express = require('express')
 const router = express.Router()
-const https = require('https')
+var mongoose = require('mongoose');
+
 const axios = require("axios")
 const { RSA_NO_PADDING } = require('constants')
+const User = require('../models/user.model')
+const Restaurant = require('../models/restaurant.model')
+const Appointment = require('../models/appointment.model')
+
+const { isLoggedIn } = require('./../middlewares')
+
 // Endpoints
-router.get('/', (req, res) => {
+router.get('/', isLoggedIn, (req, res) => {
     res.render('pages/places/search')
 })
 
 
-router.post('/', (req, res) => {
-    const { location } = req.session.currentUser
+router.get('/favorites', isLoggedIn, (req, res) => {
+    const { _id } = req.session.currentUser
+    console.log(req.session.currentUser)
+    User
+        .findById(_id)
+        .populate('favoriteRestaurants')
+        .then(user => {
+            const restaurants = user.favoriteRestaurants
+            res.render('pages/places/results', { restaurants })
+        })
+        .catch(err => console.log(err))
+})
 
-    console.log(req.body.desdencingRadio);
+router.post('/favorites', isLoggedIn, (req, res) => {
+    const { data } = req.body
+    const { _id } = req.session.currentUser
+    console.log(req.session.currentUser);
+    const { location, name, rating, photoSearch, user_ratings, address } = data
+    console.log(location, name, rating)
 
-    const { city, radius, rankBy, desdencingRadio } = req.body
+    Restaurant
+        .findOne({ name })
+        .then(restaurant => {
+            if (restaurant) {
+                return restaurant
+            }
+            return Restaurant
+                .create({ location, name, rating, photoSearch, user_ratings, address })
+                .then(response => {
+                    return response
+                }).catch(err => console.log(err))
 
-    let searchUrl = `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${process.env.GOOGLE_API}`
-
-
-    let newUrl = searchUrl.concat(`&query=restaurants+${city}`)
-
-    if (radius !== "") {
-        newUrl = newUrl.concat("&radius=" + radius + "@" + location.lat + "," + location.long)
-        // } else if (rankBy !== "") {
-        //     newUrl = newUrl.concat("&rankby=" + rankBy + "&location=" + location.lat + "," + location.long)
-    }
-    else if (city === "") {
-        newUrl = newUrl.concat("&location=" + location.lat + "," + location.long)
-    }
-
-    console.log(newUrl)
-
-    axios
-        .get(newUrl)
+        })
         .then(response => {
-            const result = response.data.results
-
-            return results = result.map(value => {
-                const rating = value.rating
-                const name = value.name
-                const address = value.formatted_address
-                const price = value.price_level
-                const location = value.geometry.location //{lat,long}
-                const user_ratings = value.user_ratings_total
-                const photoSearch = (value.photos === undefined) ? null : value.photos.map(elm => {
-                    const photoRef = elm.photo_reference
-                    const searchPhoto = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&sensor=false&key=${process.env.GOOGLE_API}`
-                    return searchPhoto
+            const { _id } = req.session.currentUser
+            console.log('the rseponse is ', typeof req.session.currentUser.favoriteRestaurants[0], _id);
+            let restaurantId = response._id
+            restaurantId = mongoose.Types.ObjectId(restaurantId).toString()
+            console.log(restaurantId, typeof restaurantId);
+            return User
+                .find({ _id: req.session.currentUser._id, 'favoriteRestaurants': restaurantId })
+                .then(user => {
+                    console.log('the user found is', user)
+                    return (user.length > 0) ? null : User.findByIdAndUpdate(req.session.currentUser._id, { $push: { favoriteRestaurants: restaurantId } })
                 })
-                return { rating, name, address, price, location, user_ratings, photoSearch }
-            })
+                .then(response => {
+                    return console.log(response)
+                })
+                .catch(err => console.log(err))
         })
-        .then(results => {
+        .then(user => {
+            console.log(user)
 
-            return results.sort((a, b) => {
-                let firstItem = a[rankBy]
-                let secondItem = b[rankBy]
-                console.log(typeof a.price);
-                //return b[rankBy] - a[rankBy]
-                if (typeof firstItem === 'number' || firstItem === undefined) {
-                    if (desdencingRadio === "ascending") {
-                        return firstItem - secondItem
-                    } else {
-                        return secondItem - firstItem
-                    }
-                } else {
-                    if (desdencingRadio === "ascending") {
-                        return firstItem.localeCompare(secondItem)
-                    } else {
-                        return secondItem.localeCompare(firstItem)
-                    }
-                }
-            })
         })
-        .then(results => {
-            //console.log(results);
-            res.json(results)
+
+        .catch(err => console.log(err))
+})
+router.get('/join', isLoggedIn, (req, res) => {
+    const { _id } = req.session.currentUser
+    Appointment
+        .find()
+        .sort({ createdAt: -1 })
+        .populate('restaurants')
+        .populate('user')
+        .then(appointments => {
+            console.log()
+            let isUser = appointments.map(elm => elm.user._id.toString() === _id)
+            let restaurants = appointments.map(elm => elm.restaurants[0])
+            let user = appointments.map(elm => elm.user)
+            let appointmentId = appointments.map(elm => elm.id)
+            res.render('pages/places/appointments', { appointments, isUser })
         })
+        .catch(err => console.log(err))
+})
+
+router.get('/join/:id', isLoggedIn, (req, res) => {
+    const { _id } = req.session.currentUser
+    const { id: restId } = req.params
+
+    Appointment
+        .create({ restaurants: restId, user: _id })
+        .then(() => {
+            res.redirect('/places/join')
+        })
+        .catch(err => console.log(err))
+})
+
+
+router.get('/favorites/delete/:id', isLoggedIn, (req, res) => {
+    const { _id } = req.session.currentUser
+    const { id: restId } = req.params
+    console.log(restId);
+
+    User
+        .findByIdAndUpdate(_id,
+            { $pull: { 'favoriteRestaurants': restId } })
+        .then(response => {
+            console.log(response)
+            res.redirect('/places/favorites')
+        })
+        .catch(err => console.log(err))
+
+})
+
+router.get('/appointment/delete/:id', isLoggedIn, (req, res) => {
+    const { _id } = req.session.currentUser
+    const { id: appointmentId } = req.params
+
+    Appointment
+        .findById(appointmentId)
+        .then(response => {
+            responseId = response.user.toString()
+            console.log(typeof _id, typeof response.user);
+            console.log(_id === responseId)
+            if (_id === responseId) {
+                Appointment
+                    .findByIdAndDelete(appointmentId)
+                    .then(() => res.redirect('/places/join'))
+            } else {
+                res.redirect('/places/join')
+            }
+        })
+        .catch(err => console.log(err))
+
 })
 
 

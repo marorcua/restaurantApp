@@ -10,8 +10,8 @@ const Chat = require('../models/chat.model')
 // Chat list page (GET)
 router.get('/', isLoggedIn, (req, res) => {
 
-    const senderPromise = Chat.find({firstSender: req.session.currentUser._id}).sort({ updatedAt: -1 }).populate('firstReceiver')
-    const receiverPromise = Chat.find({firstReceiver: req.session.currentUser._id}).sort({ updatedAt: -1 }).populate('firstSender')
+    const senderPromise = Chat.find({firstSender: req.session.currentUser._id}, { name: 1, userImage: 1 }).sort({ updatedAt: -1 }).populate('firstReceiver')
+    const receiverPromise = Chat.find({firstReceiver: req.session.currentUser._id}, { name: 1, userImage: 1 }).sort({ updatedAt: -1 }).populate('firstSender')
 
     Promise.all([senderPromise, receiverPromise])
         .then(results => res.render('pages/chat/chat-list', {sentMessage: results[0], receivedMessage: results[1]}))
@@ -43,18 +43,18 @@ router.post('/:id', isLoggedIn, (req, res) => {
                 { $and: [{'firstReceiver':  req.session.currentUser._id}, {'firstSender': req.params.id}] }
             ]})
         .then(chat => {
-            console.log(chat)
             if(chat) {
                 res.redirect(`/chat/${chat._id}`)
             } else {
                 Chat
                     .create({ firstSender, firstReceiver, conversation})
                     .then(chat => {
-                        res.redirect(`/chat/${chat.id}`)
+                    res.redirect(`/chat/${chat.id}`)
                     })
                     .catch(err => console.log('Error:', err))
-            }
-        })
+                }
+            })
+        .catch(err => console.log('Error:', err))
 })
 
 // Send a message (POST)
@@ -62,15 +62,16 @@ router.post('/conversation/:id', isLoggedIn, (req, res) => {
     const { message }  = req.body
     const writer = req.session.currentUser._id
     const dateSent = new Date()
-
     const messageSent = { message, writer, dateSent}
 
-    if(message.length === 0) {
-        res.render('pages/chat/chat-individual', { errorMessage: 'Please write a message' })
+    if (message.length === 0) {
+        res.render('pages/chat/chat-individual', { errorMessage: 'Please write a message before sending it' })
+        return
     }
 
-    if(message.length > 300) {
-        res.redirect(`/chat/${req.params.id}`, { errorMessage: 'Please write a shorter message' })
+    if (message.length > 300) {
+        res.render('pages/chat/chat-individual', { errorMessage: 'Please write a shorter message' })
+        return
     }
 
     Chat

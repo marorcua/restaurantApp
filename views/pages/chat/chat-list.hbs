@@ -1,18 +1,23 @@
-<div class="container user-list">
-    <h1>Chat List</h1>
-    <hr>
+<div class="container user-list body-container">
+    <div class="row justify-content-center">
+         <div class="col-md-4">
+            <h1>Chat List</h1>
+            <hr>
 
-    {{#each receivedMessage}}
-    <a href="/chat/{{id}}"><img src="{{firstSender.userImage.path}}" alt="{{firstSender.name}}">
-        {{firstSender.name}}</a>
-    <hr>
-    {{/each}}
+            {{#each receivedMessage}}
+            <a href="/chat/{{id}}"><img src="{{firstSender.userImage.path}}" alt="{{firstSender.name}}">
+                {{firstSender.name}}
+                <span class="btn-red small-btn">Chat!</span></a>
+            <hr>
+            {{/each}}
 
-    {{#each sentMessage}}
+            {{#each sentMessage}}
 
-    <a href="/chat/{{id}}"><img src="{{firstReceiver.userImage.path}}" alt="{{firstReceiver.name}}">
-        {{firstReceiver.name}}</a>
-    <hr>
-    {{/each}}
-
+            <a href="/chat/{{id}}"><img src="{{firstReceiver.userImage.path}}" alt="{{firstReceiver.name}}">
+                {{firstReceiver.name}}
+                <span class="btn-red small-btn">Chat!</span></a>
+            <hr>
+            {{/each}}
+        </div>
+    </div>
 </div>

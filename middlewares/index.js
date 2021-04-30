@@ -8,6 +8,14 @@ module.exports = {
         res.render('pages/auth/login', { errorMessage: 'Please Log in' })
     }
     },
+    LogInBlocked: (req, res, next) => {
+    if (req.session.currentUser) {
+        res.redirect('/users/')
+    }
+    else {
+        next()
+    }
+    },
     isLoggedAPI: (req, res, next) => {
         if (req.session.currentUser) {
             next()

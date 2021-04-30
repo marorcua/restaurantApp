@@ -3,13 +3,15 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const restaurantSchema = new Schema({
-    name: String,
+    name: { type: String },
+    rating: { type: Number },
     location: {
-        type: {
-            type: String
-        },
-        coordinates: [Number]
-    }
+        lat: { type: Number },
+        lng: { type: Number }
+    },
+    photoSearch: { type: Array },
+    user_ratings: { type: Number },
+    address: { type: String }
 
 })
 

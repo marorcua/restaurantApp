@@ -1,28 +1,28 @@
-<div class="container chat-individual">
-    <h1>Chat with {{chat.firstReceiver.name}}</h1>
-    <div class="chat-box">
-    {{#each chat.conversation}}
-    <p><b>{{writer.name}} on {{dateFormat dateSent "dddd, MMMM Do YYYY, h:mm:ss a"}}:</b> {{message}}</p>
-    {{/each}}
+<div class="container chat-individual body-container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>Chat with {{chat.firstReceiver.name}}</h1>
+            <div class="chat-box">
+                {{#each chat.conversation}}
+                <p class="chat-info">{{writer.name}} on {{dateFormat dateSent "dddd, MMMM Do YYYY, h:mm:ss a"}}:</p>
+                <b><p>{{message}}</p></b> 
+                {{/each}}
+            </div>
+            {{#if errorMessage}}
+            <div id="error" class="chat-error">
+                <p>{{errorMessage}}</p>
+            </div>
+            {{/if}}
+            <form action="/chat/conversation/{{chat.id}}" method="POST">
+                <div class="form-group">
+                    <label for="message">Send a message to {{chat.firstReceiver.name}}</label>
+                    <textarea class="form-control" id="message" name="message"></textarea>
+                </div>
+                <button type="submit" class="btn btn-red btn-block">Enviar message</button>
+                </div>
+            </form>
+        </div>
     </div>
-    {{#if errorMessage}}
-    <div id="error">
-        <p>{{errorMessage}}</p>
-    </div>
-    {{/if}}
-    <form  action="/chat/conversation/{{chat.id}}" method="POST">
-        <div class="form-group">
-            <label for="message">Send a message to {{chat.firstReceiver.name}}</label>
-            <textarea class="form-control" id="message" name="message"></textarea>
-        </div>
-        <button type="submit" class="btn btn-dark btn-block">Enviar message</button>
-        {{#if errorMessage}}
-        <div id="error">
-            <p>{{errorMessage}}</p>
-        </div>
-        {{/if}}
-        </div>
-    </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

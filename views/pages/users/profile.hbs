@@ -1,35 +1,41 @@
-<div class="container individual-user">
-    {{#with user}}
-    <img src="{{userImage.path}}" alt="{{name}}">
-    <h1>{{name}}</h1>
-    <p>{{description}}</p>
-    {{/with}}
-    <hr>
-    <p><b>Age:</b> {{userAge}} years old</p>
-    {{#with user}}
-    <p><b>My favorite cuisines:</b></p>
-    <ul>
-        {{#each favoriteCuisines}}
-        <li>Cuisine: {{this}}</li>
-        {{/each}}
-    </ul>
+<div class="container individual-user body-container">
+    <div class="row justify-content-center">
+         <div class="col-md-10">
+            {{#with user}}
+            <img src="{{userImage.path}}" alt="{{name}}">
+            <h1>{{name}}</h1>
+            <p>{{description}}</p>
+            {{/with}}
+            <hr>
+            <p><b>Age:</b> {{userAge}} years old</p>
+            {{#with user}}
+            <p><b>My favorite cuisines:</b></p>
+            <ul>
+                {{#each favoriteCuisines}}
+                <li>{{this}}</li>
+                {{/each}}
+            </ul>
 
-    {{/with}}
+            {{/with}}
 
-    {{#if isNotCurrentUser}}
-    <form action="/chat/{{user.id}}" method="POST">
-        <button type="submit" class="btn btn-dark btn-block">Chat with {{user.name}}</button>  
-    </form>
-    {{/if}}
+            {{#if isNotCurrentUser}}
+            <form action="/chat/{{user.id}}" method="POST">
+                <button type="submit" class="btn btn-red btn-block">Chat with {{user.name}}</button>  
+            </form>
+            {{/if}}
 
-    {{#if isCurrentUser}}
-    <a href="/users/edit/{{user.id}}">Edit my profile |</a>
-    <a class="red-text" href="/users/delete/{{user.id}}">Delete my profile</a>
-    {{/if}}
+            {{#if isCurrentUser}}
+            <a href="/users/edit/{{user.id}}">Edit my profile |</a>
+            <a href="/users/password/{{user.id}}">Reset password |</a>
+            <a class="red-text" href="/users/delete/{{user.id}}">Delete my profile |</a>
+            <a class="red-text" href="/auth/log-out">Log out</a>
+            {{/if}}
 
-    {{#if isAdmin}}
-    <a href="/users/edit/{{user.id}}">Edit profile |</a>
-    <a href="/users/delete/{{user.id}}">Delete profile</a>
-    {{/if}}
-
+            {{#if isAdmin}}
+            <a href="/users/edit/{{user.id}}">Edit profile |</a>
+            <a href="/users/password/{{user.id}}">Reset password |</a>
+            <a href="/users/delete/{{user.id}}">Delete profile</a>
+            {{/if}}
+        </div>
+    </div>
 </div>
