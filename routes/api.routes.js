@@ -4,8 +4,6 @@ const axios = require("axios")
 
 const { isLoggedAPI } = require('./../middlewares')
 
-const { isLoggedAPI } = require('./../middlewares')
-
 const User = require('./../models/user.model')
 
 // http://localhost:3000/api/user
