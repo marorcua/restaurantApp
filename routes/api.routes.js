@@ -87,12 +87,6 @@ router.post('/places', (req, res) => {
             if (rankBy === "distance" || rankBy === "select") {
                 return results
             } else {
-                console.log(results)
-                results = results.filter(elm => {
-                    console.log(elm);
-                    elm.rankBy !== undefined
-                })
-                console.log(results)
                 results.sort((a, b) => {
                     let firstItem = a[rankBy]
                     let secondItem = b[rankBy]
