@@ -1,9 +1,11 @@
 <div class="container restaurant-list">
     {{#each appointments}}
     <div class="row justify-content-center">
-        <div class="col-md-2">
-            {{#user}}
-            <a href="/users/{{id}}">Name: {{name}}</a>
+        {{#user}}
+        <div class="col-md-2 text-center">
+            <h3>
+                <a href="/users/{{id}}">User: {{name}}</a>
+            </h3>
             {{/user}}
         </div>
         {{#restaurants}}
@@ -15,11 +17,13 @@
         <div class="col-md-5">
             <img src="{{photoSearch}}" alt="restaurant-photo">
             {{/restaurants}}
+            {{#if (lookup ../isUser @key)}}
             <a href="/places/appointment/delete/{{id}}">Delete appointment</a>
+            {{/if}}
         </div>
     </div>
-    <hr>
     {{/each}}
+    <hr>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

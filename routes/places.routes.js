@@ -80,10 +80,12 @@ router.get('/join', isLoggedIn, (req, res) => {
         .populate('restaurants')
         .populate('user')
         .then(appointments => {
+            console.log()
+            let isUser = appointments.map(elm => elm.user._id.toString() === _id)
             let restaurants = appointments.map(elm => elm.restaurants[0])
             let user = appointments.map(elm => elm.user)
             let appointmentId = appointments.map(elm => elm.id)
-            res.render('pages/places/appointments', { appointments })
+            res.render('pages/places/appointments', { appointments, isUser })
         })
         .catch(err => console.log(err))
 })
@@ -100,20 +102,6 @@ router.get('/join/:id', isLoggedIn, (req, res) => {
         .catch(err => console.log(err))
 })
 
-router.get('/join', isLoggedIn, (req, res) => {
-    const { _id } = req.session.currentUser
-    Appointment
-        .find()
-        .populate('restaurants')
-        .populate('user')
-        .then(appointments => {
-            let restaurants = appointments.map(elm => elm.restaurants[0])
-            let user = appointments.map(elm => elm.user)
-            let appointmentId = appointments.map(elm => elm.id)
-            res.render('pages/places/appointments', { appointments })
-        })
-        .catch(err => console.log(err))
-})
 
 router.get('/favorites/delete/:id', isLoggedIn, (req, res) => {
     const { _id } = req.session.currentUser
@@ -136,10 +124,18 @@ router.get('/appointment/delete/:id', isLoggedIn, (req, res) => {
     const { id: appointmentId } = req.params
 
     Appointment
-        .findByIdAndDelete(appointmentId)
+        .findById(appointmentId)
         .then(response => {
-            console.log(response)
-            res.redirect('/places/join')
+            responseId = response.user.toString()
+            console.log(typeof _id, typeof response.user);
+            console.log(_id === responseId)
+            if (_id === responseId) {
+                Appointment
+                    .findByIdAndDelete(appointmentId)
+                    .then(() => res.redirect('/places/join'))
+            } else {
+                res.redirect('/places/join')
+            }
         })
         .catch(err => console.log(err))
 
