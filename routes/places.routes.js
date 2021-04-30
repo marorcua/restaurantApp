@@ -100,6 +100,20 @@ router.get('/join/:id', isLoggedIn, (req, res) => {
         .catch(err => console.log(err))
 })
 
+router.get('/join', isLoggedIn, (req, res) => {
+    const { _id } = req.session.currentUser
+    Appointment
+        .find()
+        .populate('restaurants')
+        .populate('user')
+        .then(appointments => {
+            let restaurants = appointments.map(elm => elm.restaurants[0])
+            let user = appointments.map(elm => elm.user)
+            let appointmentId = appointments.map(elm => elm.id)
+            res.render('pages/places/appointments', { appointments })
+        })
+        .catch(err => console.log(err))
+})
 
 router.get('/favorites/delete/:id', isLoggedIn, (req, res) => {
     const { _id } = req.session.currentUser
