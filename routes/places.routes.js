@@ -77,6 +77,7 @@ router.get('/join', isLoggedIn, (req, res) => {
     const { _id } = req.session.currentUser
     Appointment
         .find()
+        .sort({ createdAt: -1 })
         .populate('restaurants')
         .populate('user')
         .then(appointments => {
